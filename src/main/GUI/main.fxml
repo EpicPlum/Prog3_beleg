@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.GUI.ViewModel">
+    <children>
+      <TextArea prefHeight="114.0" prefWidth="744.0" text="Kupec Kuchen Automat">
+         <font>
+            <Font name="AnnabelleMatineeNF" size="57.0" />
+         </font></TextArea>
+      <TextArea fx:id="output" editable="false" prefHeight="0.0" prefWidth="744.0" text="Wie viel Platz brauchen Sie?">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font></TextArea>
+        <TextField fx:id="capacityInput" prefHeight="114.0" prefWidth="744.0" promptText="[int] - gewuenschte Groesse">
+         <font>
+            <Font name="Arial" size="18.0" />
+         </font></TextField>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="continueButton" contentDisplay="CENTER" layoutX="94.0" layoutY="56.0" mnemonicParsing="false" onAction="#continueButton" prefHeight="88.0" prefWidth="555.0" text="SET CAPACITY" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial" size="24.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+    </children>
+</VBox>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="692.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.GUI.ViewModel">
+    <children>
+      <TextArea editable="false" prefHeight="82.0" prefWidth="744.0" text="Kupec Kuchen Automat" wrapText="true">
+         <font>
+            <Font name="AnnabelleMatineeNF" size="55.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="-65.0" />
+         </VBox.margin></TextArea>
+      <TabPane prefHeight="165.0" prefWidth="744.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Einfügen">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="86.0" prefWidth="744.0">
+                     <children>
+                        <TextArea editable="false" layoutY="1.0" prefHeight="70.0" prefWidth="744.0" text="[Herstellername] - fuegt einen Hersteller ein&#10;[Kuchen-Typ] [Herstellername] [Preis] [Naehrwert] [Haltbarkeit] [kommaseparierte Allergene, einzelnes Komma fuer keine]&#10;[Obstsorte] [Kremsorte] - fuegt einen Kuchen ein" />
+                          <TextField fx:id="addInput" layoutY="62.0" prefHeight="34.0" prefWidth="744.0" promptText="Fueg ein Hersteller oder Kuchen ein">
+                           <font>
+                              <Font name="Arial" size="12.0" />
+                           </font>
+                        </TextField>
+                        <Button fx:id="addButton" contentDisplay="CENTER" layoutX="94.0" layoutY="99.0" mnemonicParsing="false" onAction="#addButton" prefHeight="4.0" prefWidth="555.0" text="ADD" textAlignment="CENTER">
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Entfernen">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="86.0" prefWidth="744.0">
+                        <children>
+                            <TextArea editable="false" layoutY="1.0" prefHeight="70.0" prefWidth="744.0" text="[Hersteller] - Loescht den Produzenten&#10;[Fachnummer] - Entfernt den Kuchen" />
+                            <TextField fx:id="removeInput" layoutY="62.0" prefHeight="34.0" prefWidth="744.0" promptText="Entfern ein Hersteller/Kuchen">
+                                <font>
+                                    <Font name="Arial" size="12.0" />
+                                </font>
+                            </TextField>
+                            <Button fx:id="removeButton" contentDisplay="CENTER" layoutX="94.0" layoutY="99.0" mnemonicParsing="false" onAction="#removeButton" prefHeight="4.0" prefWidth="555.0" text="REMOVE" textAlignment="CENTER">
+                                <font>
+                                    <Font name="Arial" size="18.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+            <Tab text="Anzeigen">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="86.0" prefWidth="744.0">
+                        <children>
+                            <TextArea editable="false" layoutY="1.0" prefHeight="70.0" prefWidth="744.0" text="hersteller - Anzeige der Hersteller mit der Anzahl der Kuchen (Linke)&#10;kuchen [Typ] - Anzeige der Kuchen gefiltert nach Typ (Rechte)&#10;allergene i/e - Anzeige der vorhandenen / nicht vorhandenen Allergenen (Linke)" />
+                            <TextField fx:id="displayInput" layoutY="62.0" prefHeight="34.0" prefWidth="744.0" promptText="Aendern die Anzeige-Optionen">
+                                <font>
+                                    <Font name="Arial" size="12.0" />
+                                </font>
+                            </TextField>
+                            <Button fx:id="displayButton" contentDisplay="CENTER" layoutX="94.0" layoutY="99.0" mnemonicParsing="false" onAction="#displayButton" prefHeight="4.0" prefWidth="555.0" text="DISPLAY" textAlignment="CENTER">
+                                <font>
+                                    <Font name="Arial" size="18.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+            <Tab text="Aendern">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="86.0" prefWidth="744.0">
+                        <children>
+                            <TextArea editable="false" layoutY="1.0" prefHeight="70.0" prefWidth="744.0" text="[Fachnummer] [Jahr] [Month] [Tag] - setzt das Datum der Inspektion&#10;z.B. 4035 2001 6 31" />
+                            <TextField fx:id="inspectInput" layoutY="62.0" prefHeight="34.0" prefWidth="744.0" promptText="Fuehr eine Inspektion aus">
+                                <font>
+                                    <Font name="Arial" size="12.0" />
+                                </font>
+                            </TextField>
+                            <Button fx:id="inspectButton" contentDisplay="CENTER" layoutX="94.0" layoutY="99.0" mnemonicParsing="false" onAction="#inspectButton" prefHeight="4.0" prefWidth="555.0" text="INSPECT" textAlignment="CENTER">
+                                <font>
+                                    <Font name="Arial" size="18.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+        <AnchorPane prefHeight="268.0" prefWidth="751.0" translateY="50.0">
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+            <TextArea fx:id="left" editable="false" layoutX="5.0" layoutY="-8.0" prefHeight="270.0" prefWidth="342.0" />
+            <TextArea fx:id="right" editable="false" layoutX="371.0" layoutY="-8.0" prefHeight="270.0" prefWidth="380.0" />
+            <Text fx:id="leftText" layoutX="10.0" layoutY="-11.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hersteller" wrappingWidth="326.13671112060547" />
+            <Text fx:id="rightText" layoutX="370.0" layoutY="-11.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kuchen" wrappingWidth="326.13671112060547" />
+            <Button fx:id="fachnummerButton" layoutX="371.0" layoutY="262.0" mnemonicParsing="false" onAction="#fachnummerButton" text="Fachnummer" />
+            <Button fx:id="herstellerButton" layoutX="467.0" layoutY="262.0" mnemonicParsing="false" onAction="#herstellerButton" text="Hersteller" />
+            <Button fx:id="haltbarkeitButton" layoutX="544.0" layoutY="262.0" mnemonicParsing="false" onAction="#haltbarkeitButton" text="Haltbarkeit" />
+        </AnchorPane>
+    </children>
+</VBox>

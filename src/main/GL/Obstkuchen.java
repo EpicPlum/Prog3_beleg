@@ -1,0 +1,57 @@
+package main.GL;
+
+import main.GL.interfaces.Allergen;
+import main.GL.interfaces.Obstkuchenbar;
+
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.util.Collection;
+import java.util.Date;
+/*
+Obstkuchenobjekte sind Kuchen mit einer Obstsorte
+ */
+public class Obstkuchen extends Kuchen implements Obstkuchenbar
+{
+    /*
+    Instanzvariablen
+     */
+    private String obstsorte;
+    /*
+    Default Konstruktor
+     */
+    public Obstkuchen()
+    {
+        super();
+        obstsorte = "";
+    }
+    /*
+    Vollstaendig Konstruktor
+     */
+    public Obstkuchen(BigDecimal preis, Date inspektionsdatum, int fachnummer, Hersteller hersteller, int naehrwert, Collection<Allergen> allergene, Duration haltbarkeit, String obstsorte) throws NullPointerException
+    {
+        super(preis, inspektionsdatum, fachnummer, hersteller, naehrwert, allergene, haltbarkeit);
+
+        if(obstsorte == null)
+        {
+            throw new NullPointerException("Obstsorte darf nicht null sein.");
+        }
+        this.obstsorte = obstsorte;
+    }
+
+    @Override
+    public String getObstsorte()
+    {
+        return obstsorte;
+    }
+
+    public void setObstsorte(String obstsorte)
+    {
+        this.obstsorte = obstsorte;
+    }
+
+    @Override
+    public String toString()
+    {
+        return super.toString() + " - Obstsorte: " + getObstsorte();
+    }
+}
