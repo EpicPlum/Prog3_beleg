@@ -2,10 +2,12 @@ package main.GL;
 
 import main.GL.interfaces.Herstellerbar;
 
+import java.io.Serializable;
+
 /*
 Herstellerobjekte, die sind eine Attribute von Kuchen
  */
-public class Hersteller implements Herstellerbar, Comparable<Hersteller>
+public class Hersteller implements Herstellerbar, Comparable<Hersteller>, Serializable
 {
     /*
     Instanzvariablen

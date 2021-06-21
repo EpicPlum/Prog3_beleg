@@ -2,6 +2,8 @@ package main.GL;
 
 import main.GL.interfaces.Allergen;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.Duration;
 import java.util.*;
 
@@ -11,17 +13,19 @@ Implementiert SinglyLinkedList mit verschiedenen Funktion / Methoden
 Kann Verkaufsobjekte und automat.Kuchen enthalten
  */
 
-public class Automat<Verkaufsobjekt>
+public class Automat implements Serializable
 {
     /*
     Instanzvariablen
      */
     private Node head;
     private volatile int size;
-    private static volatile int maxSize;
-    private static HashSet<Hersteller> herstellern = new HashSet<Hersteller>();
-    private static ArrayList<Integer> fachNummern = new ArrayList<Integer>();
+    private volatile int maxSize;
+    private HashSet<Hersteller> herstellern = new HashSet<Hersteller>();
+    private ArrayList<Integer> fachNummern = new ArrayList<Integer>();
     private int numAllergene = 0;
+    @Serial
+    private static final long serialVersionUID = 1L;
     /*
     Default Konstruktor
      */
@@ -37,7 +41,7 @@ public class Automat<Verkaufsobjekt>
     Knoten der List, subclass
      */
     //TODO wegnehmen
-    public class Node<Verkaufsobjekt>
+    public class Node<Verkaufsobjekt> implements Serializable
     {
         Verkaufsobjekt data;
         Node next;
@@ -94,7 +98,7 @@ public class Automat<Verkaufsobjekt>
     /*
     fachNummern Getter
      */
-    public static ArrayList<Integer> getFachNummern()
+    public ArrayList<Integer> getFachNummern()
     {
         return fachNummern;
     }

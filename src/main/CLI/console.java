@@ -2,6 +2,7 @@ package main.CLI;
 
 import main.GL.*;
 import main.GL.interfaces.Allergen;
+import main.IO.jos;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -263,8 +264,8 @@ public class console
                 throw new InputMismatchException("Falsche Eingabe.");
         }
     }
-    //TODO
-    public void inspectionMode()
+
+    public void inspectionMode() throws InputMismatchException
     {
         System.out.println("-- AenderungsModus --");
         System.out.println("[Fachnummer] - setzt das Datum der Inspektion\n");
@@ -309,9 +310,45 @@ public class console
         System.out.println(automat.setInspektionsdatum(fachnummer, date));
     }
     //TODO
-    public void persistenceMode()
+    public void persistenceMode() throws InputMismatchException
     {
-        System.out.println("Noch nicht implementiert.");
+        System.out.println("-- PersistenceModus --");
+        System.out.println("Wie wuerden Sie die Automat speichern / laden?");
+        System.out.println("saveJOS - speichert mittels JOS");
+        System.out.println("loadJOS - laedt mittels JOS");
+        System.out.println("saveJBP - speichert mittels JBP");
+        System.out.println("loadJBP - laedt mittels JBP");
+
+        String eingabe = "";
+        scnr.nextLine();
+
+        if(scnr.hasNext())
+        {
+            eingabe = scnr.next();
+
+            if(eingabe.equals("saveJOS"))
+            {
+                jos.saveAutomat("automat.ser", automat);
+            }
+            else if(eingabe.equals("loadJOS"))
+            {
+                automat = jos.loadAutomat("automat.ser");
+            }
+            else if(eingabe.equals("saveJBP"))
+            {
+
+            }
+            else if (eingabe.equals("loadJBP"))
+            {
+
+            }
+            else
+                throw new InputMismatchException("Falsche Eingabe.");
+        }
+        else
+            throw new InputMismatchException("Falsche Eingabe.");
+
+
     }
 
 

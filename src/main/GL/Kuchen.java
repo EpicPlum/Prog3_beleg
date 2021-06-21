@@ -3,6 +3,7 @@ package main.GL;
 import main.GL.interfaces.Allergen;
 import main.GL.interfaces.Kuchenbar;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Date;
 /*
 Kuchen im Automat, erben von Verkaufsobjekt
  */
-public class Kuchen extends Verkaufsobjekt implements Kuchenbar
+public class Kuchen extends Verkaufsobjekt implements Kuchenbar, Serializable
 {
     /*
     Instanzvariablen

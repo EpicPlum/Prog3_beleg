@@ -2,12 +2,13 @@ package main.GL;
 
 import main.GL.interfaces.Allergen;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Date;
 
-public class Obsttorte extends Obstkuchen implements main.GL.interfaces.Obsttortebar
+public class Obsttorte extends Obstkuchen implements main.GL.interfaces.Obsttortebar, Serializable
 {
     String kremsorte;
 

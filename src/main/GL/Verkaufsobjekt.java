@@ -2,13 +2,14 @@ package main.GL;
 
 import main.GL.interfaces.Verkaufsobjektbar;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 /*
 Verkaufsobjekte man findet im Automat
  */
-public class Verkaufsobjekt implements Verkaufsobjektbar
+public class Verkaufsobjekt implements Verkaufsobjektbar, Serializable
 {
     /*
     Instanzvariablen
