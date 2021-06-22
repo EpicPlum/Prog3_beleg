@@ -3,6 +3,7 @@ package main.GL;
 import main.GL.interfaces.Allergen;
 import main.GL.interfaces.Kremkuchenbar;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -17,6 +18,8 @@ public class Kremkuchen extends Kuchen implements Kremkuchenbar, Serializable
     Instanzvariablen
      */
     private String kremsorte;
+    @Serial
+    private static final long serialVersionUID = 3L;
     /*
     Default Konstruktor
      */

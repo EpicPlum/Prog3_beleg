@@ -3,6 +3,7 @@ package main.GL;
 import main.GL.interfaces.Allergen;
 import main.GL.interfaces.Kuchenbar;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -21,6 +22,8 @@ public class Kuchen extends Verkaufsobjekt implements Kuchenbar, Serializable
     private int naehrwert;
     private Collection<Allergen> allergene;
     private Duration haltbarkeit;
+    @Serial
+    private static final long serialVersionUID = 4L;
     /*
     Default Konstruktor
      */

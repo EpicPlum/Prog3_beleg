@@ -2,6 +2,7 @@ package main.CLI;
 
 import main.GL.*;
 import main.GL.interfaces.Allergen;
+import main.IO.jbp;
 import main.IO.jos;
 
 import java.math.BigDecimal;
@@ -328,19 +329,23 @@ public class console
 
             if(eingabe.equals("saveJOS"))
             {
-                jos.saveAutomat("automat.ser", automat);
+                jos.saveAutomat("jos.ser", automat);
+                System.out.println("Gespeichert speichert mittels JOS");
             }
             else if(eingabe.equals("loadJOS"))
             {
-                automat = jos.loadAutomat("automat.ser");
+                automat = jos.loadAutomat("jos.ser");
+                System.out.println("Geladen laedt mittels JOS");
             }
             else if(eingabe.equals("saveJBP"))
             {
-
+                jbp.saveAutomat("jbp.xml", automat);
+                System.out.println("Gespeichert mittels JBP");
             }
             else if (eingabe.equals("loadJBP"))
             {
-
+                automat = jbp.loadAutomat("jbp.xml");
+                System.out.println("Geladen mittels JBP");
             }
             else
                 throw new InputMismatchException("Falsche Eingabe.");

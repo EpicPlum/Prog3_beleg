@@ -46,6 +46,8 @@ public class ViewModel
         addInput = new TextField();
         removeInput = new TextField();
         displayInput = new TextField();
+        inspectInput = new TextField();
+        persistInput = new TextField();
         functions = new guiFunctions();
         left = new TextArea();
         right = new TextArea();
@@ -181,6 +183,18 @@ public class ViewModel
         updateProperties();
     }
 
+    public void persistButton()
+    {
+        if(persistInput.getText() != null)
+        {
+            functions.persistanceMode(persistInput.getText());
+        }
+        else
+            throw new NullPointerException("Eingabe ist null.");
+
+        updateProperties();
+    }
+
     public void fachnummerButton()
     {
         functions.getAutomat().fachnummerSort();
@@ -212,6 +226,8 @@ public class ViewModel
     @FXML
     TextField inspectInput;
     @FXML
+    TextField persistInput;
+    @FXML
     Button addButton;
     @FXML
     Button removeButton;
@@ -219,6 +235,8 @@ public class ViewModel
     Button displayButton;
     @FXML
     Button inspectButton;
+    @FXML
+    Button persistButton;
     @FXML
     Button herstellerButton;
     @FXML

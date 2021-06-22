@@ -13,9 +13,9 @@ public class jos
 
     public static void saveAutomat(String fileName, Automat automat)
     {
-        File out = new File(System.getProperty("user.home"), fileName);
+        //File out = new File(System.getProperty("user.home"), fileName);
 
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(out)))
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName)))
         {
             saveAutomat(oos, automat);
         }
@@ -36,9 +36,9 @@ public class jos
 
     public static Automat loadAutomat(String fileName)
     {
-        File in = new File(System.getProperty("user.home"), fileName);
+        //File in = new File(System.getProperty("user.home"), fileName);
 
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(in)))
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName)))
         {
             return loadAutomat(ois);
         }

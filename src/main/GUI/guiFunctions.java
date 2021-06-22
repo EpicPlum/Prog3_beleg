@@ -2,6 +2,8 @@ package main.GUI;
 
 import main.GL.*;
 import main.GL.interfaces.Allergen;
+import main.IO.jbp;
+import main.IO.jos;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -269,6 +271,40 @@ public class guiFunctions
 
             automat.setInspektionsdatum(fachnummer, date);
         }
+
+        public void persistanceMode(String input)
+        {
+            scnr = new Scanner(input);
+            String eingabe;
+
+            if(scnr.hasNext())
+            {
+                eingabe = scnr.next();
+
+                if(eingabe.equals("saveJOS"))
+                {
+                    jos.saveAutomat("jos.ser", automat);
+                }
+                else if(eingabe.equals("loadJOS"))
+                {
+                    automat = jos.loadAutomat("jos.ser");
+                }
+                else if(eingabe.equals("saveJBP"))
+                {
+                    jbp.saveAutomat("jbp.xml", automat);
+                }
+                else if (eingabe.equals("loadJBP"))
+                {
+                    automat = jbp.loadAutomat("jbp.xml");
+                }
+                else
+                    throw new InputMismatchException("Falsche Eingabe.");
+            }
+            else
+                throw new InputMismatchException("Falsche Eingabe.");
+        }
+
+
     public int capacity(String input)
     {
         scnr = new Scanner(input);

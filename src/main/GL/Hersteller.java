@@ -2,6 +2,7 @@ package main.GL;
 
 import main.GL.interfaces.Herstellerbar;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /*
@@ -14,6 +15,8 @@ public class Hersteller implements Herstellerbar, Comparable<Hersteller>, Serial
      */
     private String name;
     private int countKuchen;
+    @Serial
+    private static final long serialVersionUID = 2L;
     /*
     Default Konstruktor
      */
@@ -36,9 +39,17 @@ public class Hersteller implements Herstellerbar, Comparable<Hersteller>, Serial
     {
         return name;
     }
+    public void setName(String name)
+    {
+        this.name = name;
+    }
     public int countKuchen()
     {
         return countKuchen;
+    }
+    public void setCountKuchen(int countKuchen)
+    {
+        this.countKuchen = countKuchen;
     }
     public void incrementCountKuchen(int amount)
     {

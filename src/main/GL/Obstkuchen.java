@@ -3,6 +3,7 @@ package main.GL;
 import main.GL.interfaces.Allergen;
 import main.GL.interfaces.Obstkuchenbar;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -17,6 +18,8 @@ public class Obstkuchen extends Kuchen implements Obstkuchenbar, Serializable
     Instanzvariablen
      */
     private String obstsorte;
+    @Serial
+    private static final long serialVersionUID = 5L;
     /*
     Default Konstruktor
      */

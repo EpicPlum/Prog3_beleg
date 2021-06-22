@@ -29,9 +29,9 @@ public class josMain
         System.out.println(auto.listVerkaufsobjekte(1));
 
 
-        jos.saveAutomat("automat.ser", auto);
+        jos.saveAutomat("jos.ser", auto);
         System.out.println("------------------");
-        Automat loaded = jos.loadAutomat("automat.ser");
+        Automat loaded = jos.loadAutomat("jos.ser");
         System.out.println(loaded.listVerkaufsobjekte(1));
 
     }

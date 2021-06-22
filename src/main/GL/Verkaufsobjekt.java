@@ -2,6 +2,7 @@ package main.GL;
 
 import main.GL.interfaces.Verkaufsobjektbar;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -17,6 +18,8 @@ public class Verkaufsobjekt implements Verkaufsobjektbar, Serializable
     private BigDecimal preis;
     private Date inspektionsdatum;
     private int fachnummer;
+    @Serial
+    private static final long serialVersionUID = 7L;
     /*
     Default Konstruktor
      */

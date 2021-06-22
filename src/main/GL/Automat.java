@@ -10,7 +10,7 @@ import java.util.*;
 /*
 Automatobjekt
 Implementiert SinglyLinkedList mit verschiedenen Funktion / Methoden
-Kann Verkaufsobjekte und automat.Kuchen enthalten
+Kann Verkaufsobjekte und Kuchen enthalten
  */
 
 public class Automat implements Serializable
@@ -29,7 +29,12 @@ public class Automat implements Serializable
     /*
     Default Konstruktor
      */
-
+    public Automat()
+    {
+        head = null;
+        size = 0;
+        maxSize = 0;
+    }
     //Konstruktor fuer gewuenschte Kapazitaet
     public Automat(int maxSize)
     {
@@ -41,10 +46,17 @@ public class Automat implements Serializable
     Knoten der List, subclass
      */
     //TODO wegnehmen
+
     public class Node<Verkaufsobjekt> implements Serializable
     {
         Verkaufsobjekt data;
         Node next;
+
+        Node()
+        {
+            this.data = null;
+            this.next = null;
+        }
 
         Node(Verkaufsobjekt data)
         {
@@ -56,16 +68,28 @@ public class Automat implements Serializable
         {
             return data;
         }
-
+        public void setData(Verkaufsobjekt data)
+        {
+            this.data = data;
+        }
         public Node getNext()
         {
             return next;
         }
+        public void setNext(Node next)
+        {
+            this.next = next;
+        }
     }
+
 
     public Node getHead()
     {
         return head;
+    }
+    public void setHead(Node head)
+    {
+        this.head = head;
     }
     /*
     Laenge der List / Automat
@@ -79,6 +103,10 @@ public class Automat implements Serializable
         //}
 
         return size;
+    }
+    public void setSize(int size)
+    {
+        this.size = size;
     }
     public int maxSize()
     {
@@ -95,6 +123,10 @@ public class Automat implements Serializable
     {
         return herstellern;
     }
+    public void setHerstellern(HashSet<Hersteller> herstellern)
+    {
+        this.herstellern = herstellern;
+    }
     /*
     fachNummern Getter
      */
@@ -102,12 +134,20 @@ public class Automat implements Serializable
     {
         return fachNummern;
     }
+    public void setFachnummern(ArrayList<Integer> fachNummern)
+    {
+        this.fachNummern = fachNummern;
+    }
     /*
     Allergene Getter
      */
     public int getNumAllergene()
     {
         return numAllergene;
+    }
+    public void setNumAllergene(int numAllergene)
+    {
+        this.numAllergene = numAllergene;
     }
     /*
         Fuegt verkaufsobjekte und automat.Kuchen ein
