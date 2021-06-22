@@ -42,46 +42,6 @@ public class Automat implements Serializable
         size = 0;
         setMaxSize(maxSize);
     }
-    /*
-    Knoten der List, subclass
-     */
-    //TODO wegnehmen
-
-    public class Node<Verkaufsobjekt> implements Serializable
-    {
-        Verkaufsobjekt data;
-        Node next;
-
-        Node()
-        {
-            this.data = null;
-            this.next = null;
-        }
-
-        Node(Verkaufsobjekt data)
-        {
-            this.data = data;
-            this.next = null;
-        }
-
-        public Verkaufsobjekt getData()
-        {
-            return data;
-        }
-        public void setData(Verkaufsobjekt data)
-        {
-            this.data = data;
-        }
-        public Node getNext()
-        {
-            return next;
-        }
-        public void setNext(Node next)
-        {
-            this.next = next;
-        }
-    }
-
 
     public Node getHead()
     {
@@ -245,8 +205,8 @@ public class Automat implements Serializable
             throw new IndexOutOfBoundsException("Automat ist leer");
         }
 
-        Node<main.GL.Verkaufsobjekt> temp = head;
-        Node<main.GL.Verkaufsobjekt> vor = null;
+        Node temp = head;
+        Node vor = null;
 
         while(temp != null && temp.data.getFachnummer() == fachnummer)
         {
@@ -499,8 +459,8 @@ public class Automat implements Serializable
 
     public void fachnummerSort()
     {
-        Node<Kuchen> curr = head;
-        Node<Kuchen> loop = null;
+        Node curr = head;
+        Node loop = null;
         int temp;
 
         if(isEmpty())
@@ -528,8 +488,8 @@ public class Automat implements Serializable
 
     public void herstellerSort()
     {
-        Node<Kuchen> curr = head;
-        Node<Kuchen> loop = null;
+        Node curr = head;
+        Node loop = null;
         Hersteller temp;
 
         if(isEmpty())
@@ -543,11 +503,11 @@ public class Automat implements Serializable
 
             while(loop != null)
             {
-                if(curr.data.getHersteller().compareTo(loop.data.getHersteller()) > 0)
+                if(((Kuchen)curr.data).getHersteller().compareTo(((Kuchen)loop.data).getHersteller()) > 0)
                 {
-                    temp = curr.data.getHersteller();
-                    curr.data.setHersteller(loop.data.getHersteller());
-                    loop.data.setHersteller(temp);
+                    temp = ((Kuchen)curr.data).getHersteller();
+                    ((Kuchen)curr.data).setHersteller(((Kuchen)loop.data).getHersteller());
+                    ((Kuchen)loop.data).setHersteller(temp);
                 }
                 loop = loop.next;
             }
@@ -557,8 +517,8 @@ public class Automat implements Serializable
 
     public void haltbarkeitSort()
     {
-        Node<Kuchen> curr = head;
-        Node<Kuchen> loop = null;
+        Node curr = head;
+        Node loop = null;
         Duration temp;
 
         if(isEmpty())
@@ -572,11 +532,11 @@ public class Automat implements Serializable
 
             while(loop != null)
             {
-                if(curr.data.getHaltbarkeit().compareTo(loop.data.getHaltbarkeit()) > 0)
+                if(((Kuchen)curr.data).getHaltbarkeit().compareTo(((Kuchen)loop.data).getHaltbarkeit()) > 0)
                 {
-                    temp = curr.data.getHaltbarkeit();
-                    curr.data.setHaltbarkeit(loop.data.getHaltbarkeit());
-                    loop.data.setHaltbarkeit(temp);
+                    temp = ((Kuchen)curr.data).getHaltbarkeit();
+                    ((Kuchen)curr.data).setHaltbarkeit(((Kuchen)loop.data).getHaltbarkeit());
+                    ((Kuchen)loop.data).setHaltbarkeit(temp);
                 }
                 loop = loop.next;
             }

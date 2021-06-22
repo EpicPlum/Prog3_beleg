@@ -145,7 +145,7 @@ public class removeThread extends automatThread
             throw new NullPointerException("Automat ist leer.");
         }
 
-        Automat.Node loop = getAutomat().getHead();
+        Node loop = getAutomat().getHead();
         long oldest = ((Kuchen)loop.getData()).getInspektionsdatum().getTime();
         int oldestFachnummer = ((Kuchen)loop.getData()).getFachnummer();
 

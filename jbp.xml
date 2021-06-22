@@ -1,67 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <java version="15.0.1" class="java.beans.XMLDecoder">
  <object class="main.GL.Automat" id="Automat0">
+  <void property="head">
+   <object class="main.GL.Node">
+    <void property="data">
+     <object class="main.GL.Kremkuchen" id="Kremkuchen0">
+      <void property="fachnummer">
+       <int>1701</int>
+      </void>
+      <void id="Hersteller0" property="hersteller">
+       <void property="name">
+        <string>Jacobs</string>
+       </void>
+      </void>
+      <void property="kremsorte">
+       <string>Sahne</string>
+      </void>
+      <void property="naehrwert">
+       <int>300</int>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
   <void property="herstellern">
    <void method="add">
-    <void class="main.GL.Obstkuchen" id="Obstkuchen0">
-     <void id="ArrayList0" property="allergene">
-      <void method="add">
-       <object class="java.lang.Enum" method="valueOf">
-        <class>main.GL.interfaces.Allergen</class>
-        <string>Haselnuss</string>
-       </object>
-      </void>
-      <void method="add">
-       <object class="java.lang.Enum" method="valueOf">
-        <class>main.GL.interfaces.Allergen</class>
-        <string>Sesamsamen</string>
-       </object>
-      </void>
-     </void>
-     <void property="fachnummer">
-      <int>24681</int>
-     </void>
-     <void id="Hersteller0" property="hersteller">
-      <void property="name">
-       <string>Johnsons</string>
-      </void>
-     </void>
-     <void property="inspektionsdatum">
-      <object class="java.util.Date">
-       <long>61579778400000</long>
-      </object>
-     </void>
-     <void property="naehrwert">
-      <int>250</int>
-     </void>
-     <void property="obstsorte">
-      <string>Erdbeer</string>
-     </void>
-    </void>
     <object idref="Hersteller0"/>
    </void>
   </void>
  </object>
-<void class="main.GL.Kremkuchen">
- <void property="fachnummer">
-  <int>35681</int>
- </void>
- <void property="hersteller">
-  <object idref="Hersteller0"/>
- </void>
- <void property="inspektionsdatum">
-  <object class="java.util.Date">
-   <long>61579778400000</long>
-  </object>
- </void>
- <void property="kremsorte">
-  <string>Sahne</string>
- </void>
- <void property="naehrwert">
-  <int>250</int>
- </void>
- <void property="allergene">
-  <object idref="ArrayList0"/>
- </void>
-</void>
 </java>
