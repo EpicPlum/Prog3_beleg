@@ -1,6 +1,11 @@
+1. Speichern und Laden der Geschäftslogik mit JOS und JBP
+2. Stellvertreter-Tests für das Lesen und Schreiben aus/in Streams
+3. Architekturdiagramm
 
+Erreichte Stand - 0
 
-Erreichte Stand - 3
+Github:
+https://github.com/EpicPlum/Prog3_beleg
 
 Quellen:
 
