@@ -1,21 +1,20 @@
 package main.CLI.observerPatternImpl;
 
-import main.CLI.domainLogic.Counter;
 import main.CLI.observerPattern.Observable;
 import main.CLI.observerPattern.Observer;
 
 import java.util.LinkedList;
 import java.util.List;
-/*
-Subject
- */
-public class ObservableCounter extends Counter implements Observable
+
+public class Observable_Impl implements Observable
 {
-    public ObservableCounter(int startValue) {
-        super(startValue);
-    }
     private List<Observer> observerList = new LinkedList<Observer>();
     private int state;
+
+    public Observable_Impl()
+    {
+        observerList = new LinkedList<>();
+    }
 
     public int getState()
     {

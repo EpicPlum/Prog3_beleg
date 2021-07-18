@@ -5,12 +5,14 @@ import main.GL.Automat;
 /*
 Subject
  */
-public class ObservableCapacity extends ObservableCounter
+public class ObservableCapacity extends Observable_Impl
 {
+    private int startCapacity;
 
     public ObservableCapacity(int startCapacity)
     {
-        super(startCapacity);
+        super();
+        this.startCapacity = startCapacity;
     }
 
     public boolean checkCapacity(Automat automat)

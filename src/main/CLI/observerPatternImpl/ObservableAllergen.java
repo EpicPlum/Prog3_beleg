@@ -5,12 +5,14 @@ import main.GL.Automat;
 /*
 Subject
  */
-public class ObservableAllergen extends ObservableCounter
+public class ObservableAllergen extends Observable_Impl
 {
+    private int startNumAllergens;
 
     public ObservableAllergen(int startNumAllergens)
     {
-        super(startNumAllergens);
+        super();
+        this.startNumAllergens = startNumAllergens;
     }
 
     public boolean checkAllergens(Automat automat)

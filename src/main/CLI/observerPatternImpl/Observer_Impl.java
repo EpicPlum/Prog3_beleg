@@ -1,23 +1,21 @@
 package main.CLI.observerPatternImpl;
 
 import main.CLI.observerPattern.Observer;
-/*
-Observer
- */
-public class CounterObserver implements Observer
+
+public class Observer_Impl implements Observer
 {
-    private ObservableCounter counter;
+    private Observable_Impl observable;
     private int oldState;
     private String name;
 
-    public CounterObserver(String name)
+    public Observer_Impl(String name)
     {
         this.name = name;
     }
     @Override
     public void update()
     {
-        int newState = counter.getState();
+        int newState = observable.getState();
         if(newState != this.oldState)
         {
             System.out.println("New state: " + newState);

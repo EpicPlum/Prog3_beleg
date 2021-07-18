@@ -3,7 +3,7 @@ package main.CLI.observerPatternImpl;
 /*
 Observer
  */
-public class AllergenObserver extends CounterObserver
+public class AllergenObserver extends Observer_Impl
 {
     private ObservableAllergen allergen;
 

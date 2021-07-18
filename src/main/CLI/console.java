@@ -1,5 +1,7 @@
 package main.CLI;
 
+import main.CLI.events.*;
+import main.CLI.eventsImpl.ConsoleEventHandler;
 import main.GL.*;
 import main.GL.interfaces.Allergen;
 import main.IO.jbp;
@@ -15,6 +17,7 @@ public class console
     private static Scanner scnr = new Scanner(System.in);
     private static String menuEingabe;
     private Automat automat = new Automat(5);
+    private ConsoleEventHandler consoleHandler;
 
 
     public String getMenuEingabe()
@@ -38,7 +41,17 @@ public class console
         this.menuEingabe = menuEingabe;
     }
 
-    //TODO
+    public Automat getAutomat()
+    {
+        return this.automat;
+    }
+
+    public void setConsoleHandler(ConsoleEventHandler consoleHandler)
+    {
+        this.consoleHandler = consoleHandler;
+    }
+
+
     public void addMode() throws InputMismatchException
     {
         System.out.println("-- EinfuegeModus --");
@@ -47,7 +60,17 @@ public class console
                             "[Obstsorte] [Kremsorte] - fuegt einen Kuchen ein\n");
 
         scnr.nextLine();
-        String[] line = scnr.nextLine().split(" ");
+
+        String[] line = {};
+
+        ArrayInputEvent input = new ArrayInputEvent(this, scnr.nextLine(), line);
+
+        //String[] line = scnr.nextLine().split(" ");
+        if(this.consoleHandler != null)
+            consoleHandler.handleArrayInput(input);
+
+        line = input.getArray();
+
         String[] allergeneStrings;
         ArrayList<Allergen> allergene = new ArrayList<Allergen>();
 
@@ -180,20 +203,21 @@ public class console
 
         scnr.nextLine();
 
-       String eingabe;
-        int intEingabe;
-
         if(scnr.hasNextInt())
         {
-            intEingabe = scnr.nextInt();
-            automat.removeKuchen(intEingabe);
+            IntInputEvent intIn = new IntInputEvent(this,scnr.nextInt());
+            if(this.consoleHandler != null)
+                consoleHandler.handleIntInput(intIn);
+            automat.removeKuchen(intIn.getNum());
             return;
 
         }
         else if(scnr.hasNext())
         {
-            eingabe = scnr.next();
-            automat.removeHersteller(eingabe);
+            InputEvent stringIn = new InputEvent(this,scnr.next());
+            if(this.consoleHandler != null)
+                consoleHandler.handleInput(stringIn);
+            automat.removeHersteller(stringIn.getText());
             return;
         }
             throw new InputMismatchException("Keine gueltige Hersteller oder Fachnummer.");
@@ -209,8 +233,12 @@ public class console
 
         scnr.nextLine();
 
-        String[] line = scnr.nextLine().split(" ");
-        //System.out.println(Arrays.toString(line));
+        //String[] line = scnr.nextLine().split(" ");
+        String[] line = {};
+        ArrayInputEvent input = new ArrayInputEvent(this, scnr.nextLine(), line);
+
+        if(this.consoleHandler != null)
+            consoleHandler.handleArrayInput(input);
 
         for(int i = 0; i < line.length; i++)
         {
@@ -276,13 +304,24 @@ public class console
 
         if(scnr.hasNextInt())
         {
-            fachnummer = scnr.nextInt();
+
+            //fachnummer = scnr.nextInt();
+            IntInputEvent intIn = new IntInputEvent(this,scnr.nextInt());
+            if(this.consoleHandler != null)
+                consoleHandler.handleIntInput(intIn);
+            fachnummer = intIn.getNum();
 
             System.out.println("[Jahr] [Monat] [Tag] - setzt das Datum");
             System.out.println("2001 6 31 - z.B.");
-            if(scnr.hasNextInt()) {
+            if(scnr.hasNextInt())
+            {
                 scnr.nextLine();
-                String[] line = scnr.nextLine().split(" ");
+
+                String[] line = {};
+                ArrayInputEvent input = new ArrayInputEvent(this, scnr.nextLine(), line);
+                if(this.consoleHandler != null)
+                    consoleHandler.handleArrayInput(input);
+
                 if (line.length == 3)
                 {
                     if (Integer.parseInt(line[0]) > 0 && Integer.parseInt(line[1]) > 0 && Integer.parseInt(line[2]) > 0)
@@ -310,7 +349,7 @@ public class console
 
         System.out.println(automat.setInspektionsdatum(fachnummer, date));
     }
-    //TODO
+
     public void persistenceMode() throws InputMismatchException
     {
         System.out.println("-- PersistenceModus --");
@@ -325,7 +364,10 @@ public class console
 
         if(scnr.hasNext())
         {
-            eingabe = scnr.next();
+            InputEvent stringIn = new InputEvent(this,scnr.next());
+            if(this.consoleHandler != null)
+                consoleHandler.handleInput(stringIn);
+            eingabe = stringIn.getText();
 
             if(eingabe.equals("saveJOS"))
             {
@@ -356,7 +398,67 @@ public class console
 
     }
 
+    public void start()
+    {
+        boolean loop = true;
+        console runner = new console();
 
+                System.out.println("\nKupec Kuchen Automat - Willem Kupec 577468\n");
+                System.out.println("Wie viel Platz brauchen Sie?");
+
+                if(scnr.hasNextInt())
+                {
+                    CapacityEvent cEvent = new CapacityEvent(this, scnr.nextInt(), automat);
+                    if(this.consoleHandler != null)
+                        consoleHandler.handleCapacity(cEvent);
+                }
+                else
+                    throw new InputMismatchException("Braucht einen Integer.");
+
+            while(loop)
+            {
+                System.out.println("Welche Modus moechten Sie?");
+                System.out.println(":c - Einfuegemodus");
+                System.out.println(":d - Loeschmodus");
+                System.out.println(":r - Anzeigemodus");
+                System.out.println(":u - Aenderungsmodus");
+                System.out.println(":p - Persistenzmodus");
+                System.out.println(":config - Konfigurationsmodus");
+                System.out.println(":q - Quit");
+
+
+                MenuEvent mEvent = new MenuEvent(this, scnr.next(), runner);
+                if(this.consoleHandler != null)
+                    consoleHandler.handleMenu(mEvent);
+
+                if (menuEingabe.equals(":c")) {
+                    addMode();
+                }
+
+                if (menuEingabe.equals(":d")) {
+                    deleteMode();
+                }
+
+                if (menuEingabe.equals(":r")) {
+                    displayMode();
+                }
+
+                if (menuEingabe.equals(":u")) {
+                    inspectionMode();
+                }
+
+                if (menuEingabe.equals(":p")) {
+                    persistenceMode();
+                }
+
+                if (menuEingabe.equals(":q")) {
+                    loop = false;
+                }
+
+            }
+    }
+
+/*
     public void menu()
     {
         boolean loop = true;
@@ -411,4 +513,5 @@ public class console
             }
         }
     }
+ */
 }

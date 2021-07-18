@@ -3,7 +3,7 @@ package main.CLI.observerPatternImpl;
 /*
 Observer
  */
-public class CapacityObserver extends CounterObserver
+public class CapacityObserver extends Observer_Impl
 {
     private ObservableCapacity capacity;
 
