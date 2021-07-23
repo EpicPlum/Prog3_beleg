@@ -67,7 +67,7 @@ public abstract class automatThread extends Thread
     public abstract void run();
     public static int getRandomFachnummer(int pos) throws IndexOutOfBoundsException
     {
-        if(pos < 0 || pos >= getAutomat().size())
+        if(pos < 0 || pos > getAutomat().size())
         {
             throw new IndexOutOfBoundsException("Ungueltige Stelle.");
         }

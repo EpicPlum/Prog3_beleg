@@ -11,21 +11,21 @@ public class jos
         objectOutput.writeObject(automat);
     }
 
-    public static void saveAutomat(String fileName, Automat automat)
+    public static boolean saveAutomat(String fileName, Automat automat) throws NullPointerException
     {
         //File out = new File(System.getProperty("user.home"), fileName);
-
+        if(fileName == null || automat == null)
+        {
+            throw new NullPointerException("Filename/Automat ist null.");
+        }
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName)))
         {
             saveAutomat(oos, automat);
-        }
-        catch(FileNotFoundException e)
+            return true;
+        } catch(IOException e)
         {
             e.printStackTrace();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
+            return false;
         }
     }
 
@@ -36,20 +36,14 @@ public class jos
 
     public static Automat loadAutomat(String fileName)
     {
-        //File in = new File(System.getProperty("user.home"), fileName);
-
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName)))
         {
             return loadAutomat(ois);
         }
-        catch(IOException e)
+        catch(IOException | ClassNotFoundException e)
         {
             e.printStackTrace();
+            return null;
         }
-        catch(ClassNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

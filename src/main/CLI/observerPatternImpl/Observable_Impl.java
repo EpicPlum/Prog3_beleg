@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Observable_Impl implements Observable
 {
-    private List<Observer> observerList = new LinkedList<Observer>();
+    private List<Observer> observerList;
     private int state;
 
     public Observable_Impl()
@@ -25,6 +25,11 @@ public class Observable_Impl implements Observable
     {
         this.state = state;
         this.notifyObservers();
+    }
+
+    public List<Observer> getList()
+    {
+        return observerList;
     }
 
     @Override

@@ -7,4 +7,6 @@ public interface Verkaufsobjektbar {
     BigDecimal getPreis();
     Date getInspektionsdatum();
     int getFachnummer();
+    void setFachnummer(int fachnummer);
+    String toString();
 }

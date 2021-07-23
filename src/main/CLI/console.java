@@ -2,6 +2,12 @@ package main.CLI;
 
 import main.CLI.events.*;
 import main.CLI.eventsImpl.ConsoleEventHandler;
+import main.CLI.observerPattern.ObservableAllergen;
+import main.CLI.observerPattern.ObservableCapacity;
+import main.CLI.observerPattern.Observer;
+import main.CLI.observerPatternImpl.AllergenObserver;
+import main.CLI.observerPatternImpl.CapacityObserver;
+import main.CLI.observerPatternImpl.Observable_Impl;
 import main.GL.*;
 import main.GL.interfaces.Allergen;
 import main.IO.jbp;
@@ -12,52 +18,61 @@ import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class console
-{
+public class console extends Observable_Impl implements ObservableCapacity, ObservableAllergen {
     private static Scanner scnr = new Scanner(System.in);
     private static String menuEingabe;
-    private Automat automat = new Automat(5);
+    private Automat automat;
     private ConsoleEventHandler consoleHandler;
 
+    public console() {
+        automat = new Automat(5);
+        consoleHandler = new ConsoleEventHandler();
+    }
 
-    public String getMenuEingabe()
-    {
+    public console(Automat automat) {
+        this.automat = automat;
+        consoleHandler = new ConsoleEventHandler();
+    }
+
+    public static Scanner getScannér() {
+        return scnr;
+    }
+
+    public String getMenuEingabe() {
         return menuEingabe;
     }
 
-    public void setMenuEingabe(String menuEingabe) throws NullPointerException, InputMismatchException
-    {
-        if(menuEingabe == null)
-        {
+    public void setMenuEingabe(String menuEingabe) throws NullPointerException, InputMismatchException {
+        if (menuEingabe == null) {
             throw new NullPointerException("Eingabe ist null.");
         }
 
-        if(menuEingabe.length() < 0 || (!menuEingabe.equals(":c") && !menuEingabe.equals(":d") && !menuEingabe.equals(":r")
-                && !menuEingabe.equals(":u") && !menuEingabe.equals(":p") && !menuEingabe.equals(":config") && !menuEingabe.equals(":q")))
-        {
+        if (menuEingabe.length() < 0 || (!menuEingabe.equals(":c") && !menuEingabe.equals(":d") && !menuEingabe.equals(":r")
+                && !menuEingabe.equals(":u") && !menuEingabe.equals(":p") && !menuEingabe.equals(":config") && !menuEingabe.equals(":q"))) {
             throw new InputMismatchException("Ungueltig Eingabe.");
         }
 
         this.menuEingabe = menuEingabe;
     }
 
-    public Automat getAutomat()
-    {
+    public Automat getAutomat() {
         return this.automat;
     }
 
-    public void setConsoleHandler(ConsoleEventHandler consoleHandler)
-    {
+    public ConsoleEventHandler getConsoleHandler() {
+        return consoleHandler;
+    }
+
+    public void setConsoleHandler(ConsoleEventHandler consoleHandler) {
         this.consoleHandler = consoleHandler;
     }
 
 
-    public void addMode() throws InputMismatchException
-    {
+    public boolean addMode() throws InputMismatchException {
         System.out.println("-- EinfuegeModus --");
         System.out.println("[Herstellername] - fuegt einen Hersteller ein");
         System.out.println("[Kuchen-Typ] [Herstellername] [Preis] [Naehrwert] [Haltbarkeit] [kommaseparierte Allergene, einzelnes Komma fuer keine]" +
-                            "[Obstsorte] [Kremsorte] - fuegt einen Kuchen ein\n");
+                "[Obstsorte] [Kremsorte] - fuegt einen Kuchen ein\n");
 
         scnr.nextLine();
 
@@ -66,7 +81,7 @@ public class console
         ArrayInputEvent input = new ArrayInputEvent(this, scnr.nextLine(), line);
 
         //String[] line = scnr.nextLine().split(" ");
-        if(this.consoleHandler != null)
+        if (this.consoleHandler != null)
             consoleHandler.handleArrayInput(input);
 
         line = input.getArray();
@@ -74,44 +89,34 @@ public class console
         String[] allergeneStrings;
         ArrayList<Allergen> allergene = new ArrayList<Allergen>();
 
-        if(line == null)
-        {
+        if (line == null) {
             throw new NullPointerException("Kann nicht null einfuegen");
         }
         //Herstellername
-        if(line.length == 1)
-        {
+        if (line.length == 1) {
             automat.addHersteller(new Hersteller(line[0]));
-        }
-        else if(line.length >= 6)
-        {
+            return true;
+        } else if (line.length >= 6) {
 
 
-            if(!line[5].equals(","))
-            {
+            if (!line[5].equals(",")) {
                 allergeneStrings = line[5].split(",");
 
-                for (int i = 0; i < allergeneStrings.length; i++)
-                {
-                    for(Allergen loop : Allergen.values())
-                    {
-                        if((loop.toString()).equals(allergeneStrings[i]))
-                        {
+                for (int i = 0; i < allergeneStrings.length; i++) {
+                    for (Allergen loop : Allergen.values()) {
+                        if ((loop.toString()).equals(allergeneStrings[i])) {
                             allergene.add(loop);
                         }
                     }
                 }
             }
 
-            if(line[0].equals("Kuchen"))
-            {
+            if (line[0].equals("Kuchen")) {
                 Kuchen k = new Kuchen();
 
-                for(Object h : automat.getHerstellern())
-                {
-                    if(line[1].equals(((Hersteller)h).getName()))
-                    {
-                        k.setHersteller((Hersteller)h);
+                for (Object h : automat.getHerstellern()) {
+                    if (line[1].equals(((Hersteller) h).getName())) {
+                        k.setHersteller((Hersteller) h);
                     }
                 }
 
@@ -122,16 +127,13 @@ public class console
                 k.setFachnummer(ThreadLocalRandom.current().nextInt(0, 10000));
 
                 automat.add(k);
-            }
-            else if(line[0].equals("Kremkuchen"))
-            {
+                return true;
+            } else if (line[0].equals("Kremkuchen")) {
                 Kremkuchen kk = new Kremkuchen();
 
-                for(Object h : automat.getHerstellern())
-                {
-                    if(line[1].equals(((Hersteller)h).getName()))
-                    {
-                        kk.setHersteller((Hersteller)h);
+                for (Object h : automat.getHerstellern()) {
+                    if (line[1].equals(((Hersteller) h).getName())) {
+                        kk.setHersteller((Hersteller) h);
                     }
                 }
                 kk.setPreis(new BigDecimal(Double.parseDouble(line[2])));
@@ -142,15 +144,12 @@ public class console
                 kk.setFachnummer(ThreadLocalRandom.current().nextInt(0, 10000));
 
                 automat.add(kk);
-            }
-            else if(line[0].equals("Obstkuchen"))
-            {
+                return true;
+            } else if (line[0].equals("Obstkuchen")) {
                 Obstkuchen ok = new Obstkuchen();
-                for(Object h : automat.getHerstellern())
-                {
-                    if(line[1].equals(((Hersteller)h).getName()))
-                    {
-                        ok.setHersteller((Hersteller)h);
+                for (Object h : automat.getHerstellern()) {
+                    if (line[1].equals(((Hersteller) h).getName())) {
+                        ok.setHersteller((Hersteller) h);
                     }
                 }
                 ok.setPreis(new BigDecimal(Double.parseDouble(line[2])));
@@ -161,16 +160,13 @@ public class console
                 ok.setFachnummer(ThreadLocalRandom.current().nextInt(0, 10000));
 
                 automat.add(ok);
-            }
-            else if(line[0].equals("Obsttorte"))
-            {
+                return true;
+            } else if (line[0].equals("Obsttorte")) {
                 Obsttorte ot = new Obsttorte();
 
-                for(Object h : automat.getHerstellern())
-                {
-                    if(line[1].equals(((Hersteller)h).getName()))
-                    {
-                        ot.setHersteller((Hersteller)h);
+                for (Object h : automat.getHerstellern()) {
+                    if (line[1].equals(((Hersteller) h).getName())) {
+                        ot.setHersteller((Hersteller) h);
                     }
                 }
                 ot.setPreis(new BigDecimal(Double.parseDouble(line[2])));
@@ -182,50 +178,149 @@ public class console
                 ot.setFachnummer(ThreadLocalRandom.current().nextInt(0, 10000));
 
                 automat.add(ot);
-            }
-            else
-            {
+                return true;
+            } else {
                 throw new InputMismatchException("Gibts kein Art dieser Kuchen.");
             }
 
 
-        }
-        else
+        } else
             throw new InputMismatchException("Ungueltige Eingabe.");
 
     }
 
-    public void deleteMode() throws InputMismatchException
+    public boolean addModeTest(String eingabe)
     {
+        String[] line = eingabe.split(" ");
+        System.out.println(Arrays.toString(line));
+        System.out.println(eingabe);
+
+
+        String[] allergeneStrings;
+        ArrayList<Allergen> allergene = new ArrayList<Allergen>();
+
+        if (line == null) {
+            throw new NullPointerException("Kann nicht null einfuegen");
+        }
+        //Herstellername
+        if (line.length == 1) {
+            automat.addHersteller(new Hersteller(line[0]));
+            return true;
+        } else if (line.length >= 6) {
+            if (!line[5].equals(",")) {
+                allergeneStrings = line[5].split(",");
+
+                for (int i = 0; i < allergeneStrings.length; i++) {
+                    for (Allergen loop : Allergen.values()) {
+                        if ((loop.toString()).equals(allergeneStrings[i])) {
+                            allergene.add(loop);
+                        }
+                    }
+                }
+            }
+
+            if (line[0].equals("Kuchen")) {
+                Kuchen k = new Kuchen();
+
+                for (Object h : automat.getHerstellern()) {
+                    if (line[1].equals(((Hersteller) h).getName())) {
+                        k.setHersteller((Hersteller) h);
+                    }
+                }
+
+                k.setPreis(new BigDecimal(Double.parseDouble(line[2])));
+                k.setNaehrwert(Integer.parseInt(line[3]));
+                k.setHaltbarkeit(Duration.ofDays(Long.parseLong(line[4])));
+                k.setAllergene(allergene);
+                k.setFachnummer(ThreadLocalRandom.current().nextInt(0, 10000));
+
+                automat.add(k);
+                return true;
+            } else if (line[0].equals("Kremkuchen")) {
+                Kremkuchen kk = new Kremkuchen();
+
+                for (Object h : automat.getHerstellern()) {
+                    if (line[1].equals(((Hersteller) h).getName())) {
+                        kk.setHersteller((Hersteller) h);
+                    }
+                }
+                kk.setPreis(new BigDecimal(Double.parseDouble(line[2])));
+                kk.setNaehrwert(Integer.parseInt(line[3]));
+                kk.setHaltbarkeit(Duration.ofDays(Long.parseLong(line[4])));
+                kk.setAllergene(allergene);
+                kk.setKremsorte(line[6]);
+                kk.setFachnummer(ThreadLocalRandom.current().nextInt(0, 10000));
+
+                automat.add(kk);
+                return true;
+            } else if (line[0].equals("Obstkuchen")) {
+                Obstkuchen ok = new Obstkuchen();
+                for (Object h : automat.getHerstellern()) {
+                    if (line[1].equals(((Hersteller) h).getName())) {
+                        ok.setHersteller((Hersteller) h);
+                    }
+                }
+                ok.setPreis(new BigDecimal(Double.parseDouble(line[2])));
+                ok.setNaehrwert(Integer.parseInt(line[3]));
+                ok.setHaltbarkeit(Duration.ofDays(Long.parseLong(line[4])));
+                ok.setAllergene(allergene);
+                ok.setObstsorte(line[6]);
+                ok.setFachnummer(ThreadLocalRandom.current().nextInt(0, 10000));
+
+                automat.add(ok);
+                return true;
+            } else if (line[0].equals("Obsttorte")) {
+                Obsttorte ot = new Obsttorte();
+
+                for (Object h : automat.getHerstellern()) {
+                    if (line[1].equals(((Hersteller) h).getName())) {
+                        ot.setHersteller((Hersteller) h);
+                    }
+                }
+                ot.setPreis(new BigDecimal(Double.parseDouble(line[2])));
+                ot.setNaehrwert(Integer.parseInt(line[3]));
+                ot.setHaltbarkeit(Duration.ofDays(Long.parseLong(line[4])));
+                ot.setAllergene(allergene);
+                ot.setObstsorte(line[6]);
+                ot.setKremsorte(line[7]);
+                ot.setFachnummer(ThreadLocalRandom.current().nextInt(0, 10000));
+
+                automat.add(ot);
+                return true;
+            } else {
+                throw new InputMismatchException("Gibts kein Art dieser Kuchen.");
+            }
+
+
+        } else
+            throw new InputMismatchException(eingabe +" "+ Arrays.toString(line) + " Ungueltige Eingabe.");
+
+
+    }
+
+    public void deleteMode() throws InputMismatchException {
         System.out.println("-- LoeschModus --");
         System.out.println("[Hersteller] - Loescht den Produzenten");
         System.out.println("[Fachnummer] - Entfernt den Kuchen\n");
 
         scnr.nextLine();
 
-        if(scnr.hasNextInt())
-        {
-            IntInputEvent intIn = new IntInputEvent(this,scnr.nextInt());
-            if(this.consoleHandler != null)
-                consoleHandler.handleIntInput(intIn);
-            automat.removeKuchen(intIn.getNum());
+        if (scnr.hasNextInt()) {
+            IntInputEvent intIn = new IntInputEvent(this, scnr.nextInt());
+            if (this.getConsoleHandler() != null)
+                getAutomat().removeKuchen(getConsoleHandler().handleIntInput(intIn));
             return;
 
-        }
-        else if(scnr.hasNext())
-        {
-            InputEvent stringIn = new InputEvent(this,scnr.next());
-            if(this.consoleHandler != null)
-                consoleHandler.handleInput(stringIn);
-            automat.removeHersteller(stringIn.getText());
+        } else if (scnr.hasNext()) {
+            InputEvent stringIn = new InputEvent(this, scnr.next());
+            if (this.consoleHandler != null)
+                automat.removeHersteller(consoleHandler.handleInput(stringIn));
             return;
         }
-            throw new InputMismatchException("Keine gueltige Hersteller oder Fachnummer.");
+        throw new InputMismatchException("Keine gueltige Hersteller oder Fachnummer.");
     }
 
-    public void displayMode() throws InputMismatchException
-    {
-
+    public void displayMode() throws InputMismatchException {
         System.out.println("-- AnzeigeModus --");
         System.out.println("hersteller - Anzeige der Hersteller mit der Anzahl der Kuchen");
         System.out.println("kuchen [Typ] - Anzeige der Kuchen gefiltert nach Typ");
@@ -237,61 +332,85 @@ public class console
         String[] line = {};
         ArrayInputEvent input = new ArrayInputEvent(this, scnr.nextLine(), line);
 
-        if(this.consoleHandler != null)
+        if (this.consoleHandler != null) {
             consoleHandler.handleArrayInput(input);
+        }
 
-        for(int i = 0; i < line.length; i++)
-        {
-            if(line[0].equals("hersteller"))
-            {
+        line = input.getArray();
+
+        for (int i = 0; i < line.length; i++) {
+            if (line[0].equals("hersteller")) {
                 System.out.println(automat.listHersteller());
                 return;
-            }
-            else if(line[0].equals("kuchen"))
-            {
-                if(line[1].equals("Kuchen"))
-                {
+            } else if (line[0].equals("kuchen")) {
+                if (line[1].equals("Kuchen")) {
                     System.out.println(automat.listVerkaufsobjekte(2));
                     return;
-                }
-                else if(line[1].equals("Kremkuchen"))
-                {
+                } else if (line[1].equals("Kremkuchen")) {
                     System.out.println(automat.listVerkaufsobjekte(3));
                     return;
-                }
-                else if(line[1].equals("Obstkuchen"))
-                {
+                } else if (line[1].equals("Obstkuchen")) {
                     System.out.println(automat.listVerkaufsobjekte(4));
                     return;
-                }
-                else if(line[1].equals("Obsttorte"))
-                {
+                } else if (line[1].equals("Obsttorte")) {
                     System.out.println(automat.listVerkaufsobjekte(5));
                     return;
-                }
-                else
-                {
+                } else {
                     throw new InputMismatchException("Falsche Eingabe.");
                 }
-            }
-            else if(line[0].equals("allergene"))
-            {
-                if(line[1].equals("i"))
-                {
+            } else if (line[0].equals("allergene")) {
+                if (line[1].equals("i")) {
                     System.out.println(automat.listAllergene(1));
                     return;
-                }
-                else if(line[1].equals("e"))
-                {
+                } else if (line[1].equals("e")) {
                     System.out.println(automat.listAllergene(2));
                     return;
-                }
-                else
+                } else
                     throw new InputMismatchException("Falsche Eingabe.");
-            }
-            else
+            } else
                 throw new InputMismatchException("Falsche Eingabe.");
         }
+    }
+
+    public boolean displayModeTest(String eingabe) throws InputMismatchException
+    {
+        String[] line = eingabe.split(" ");
+
+
+        for (int i = 0; i < line.length; i++) {
+            if (line[0].equals("hersteller") && line.length == 1)
+            {
+                System.out.println(automat.listHersteller());
+                return true;
+            } else if (line[0].equals("kuchen")) {
+                if (line[1].equals("Kuchen")) {
+                    System.out.println(automat.listVerkaufsobjekte(2));
+                    return true;
+                } else if (line[1].equals("Kremkuchen")) {
+                    System.out.println(automat.listVerkaufsobjekte(3));
+                    return true;
+                } else if (line[1].equals("Obstkuchen")) {
+                    System.out.println(automat.listVerkaufsobjekte(4));
+                    return true;
+                } else if (line[1].equals("Obsttorte")) {
+                    System.out.println(automat.listVerkaufsobjekte(5));
+                    return true;
+                } else {
+                    throw new InputMismatchException("Falsche Eingabe.");
+                }
+            } else if (line[0].equals("allergene")) {
+                if (line[1].equals("i")) {
+                    System.out.println(automat.listAllergene(1));
+                    return true;
+                } else if (line[1].equals("e")) {
+                    System.out.println(automat.listAllergene(2));
+                    return true;
+                } else
+                    throw new InputMismatchException("Falsche Eingabe.");
+            } else
+                throw new InputMismatchException("Falsche Eingabe.");
+        }
+        return false;
     }
 
     public void inspectionMode() throws InputMismatchException
@@ -308,8 +427,7 @@ public class console
             //fachnummer = scnr.nextInt();
             IntInputEvent intIn = new IntInputEvent(this,scnr.nextInt());
             if(this.consoleHandler != null)
-                consoleHandler.handleIntInput(intIn);
-            fachnummer = intIn.getNum();
+                fachnummer = consoleHandler.handleIntInput(intIn);
 
             System.out.println("[Jahr] [Monat] [Tag] - setzt das Datum");
             System.out.println("2001 6 31 - z.B.");
@@ -321,6 +439,8 @@ public class console
                 ArrayInputEvent input = new ArrayInputEvent(this, scnr.nextLine(), line);
                 if(this.consoleHandler != null)
                     consoleHandler.handleArrayInput(input);
+
+                line = input.getArray();
 
                 if (line.length == 3)
                 {
@@ -366,8 +486,7 @@ public class console
         {
             InputEvent stringIn = new InputEvent(this,scnr.next());
             if(this.consoleHandler != null)
-                consoleHandler.handleInput(stringIn);
-            eingabe = stringIn.getText();
+                eingabe = consoleHandler.handleInput(stringIn);
 
             if(eingabe.equals("saveJOS"))
             {
@@ -455,63 +574,31 @@ public class console
                     loop = false;
                 }
 
+                notifyObserversCapacity();
+                notifyObserversAllergene();
             }
     }
 
-/*
-    public void menu()
+    public void notifyObserversCapacity()
     {
-        boolean loop = true;
-        console runner = new console();
-
-        System.out.println("\nKupec Kuchen Automat - Willem Kupec 577468\n");
-        System.out.println("Wie viel Platz brauchen Sie?");
-
-        if(scnr.hasNextInt())
+        for(main.CLI.observerPattern.Observer o : getList())
         {
-            automat.setMaxSize(scnr.nextInt());
-        }
-        else
-            throw new InputMismatchException("Braucht einen Integer.");
-        while(loop)
-        {
-
-            System.out.println("Welche Modus moechten Sie?");
-            System.out.println(":c - Einfuegemodus");
-            System.out.println(":d - Loeschmodus");
-            System.out.println(":r - Anzeigemodus");
-            System.out.println(":u - Aenderungsmodus");
-            System.out.println(":p - Persistenzmodus");
-            System.out.println(":config - Konfigurationsmodus");
-            System.out.println(":q - Quit");
-
-
-            runner.setMenuEingabe(scnr.next());
-
-            if (menuEingabe.equals(":c")) {
-                addMode();
-            }
-
-            if (menuEingabe.equals(":d")) {
-                deleteMode();
-            }
-
-            if (menuEingabe.equals(":r")) {
-                displayMode();
-            }
-
-            if (menuEingabe.equals(":u")) {
-                inspectionMode();
-            }
-
-            if (menuEingabe.equals(":p")) {
-                persistenceMode();
-            }
-
-            if (menuEingabe.equals(":q")) {
-                loop = false;
+            if(o instanceof CapacityObserver)
+            {
+                o.update();
             }
         }
     }
- */
+
+
+    public void notifyObserversAllergene()
+    {
+        for(Observer o : getList())
+        {
+            if(o instanceof AllergenObserver)
+            {
+                o.update();
+            }
+        }
+    }
 }

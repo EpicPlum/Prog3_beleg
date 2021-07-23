@@ -17,9 +17,7 @@ public class Hersteller implements Herstellerbar, Comparable<Hersteller>, Serial
     private int countKuchen;
     @Serial
     private static final long serialVersionUID = 2L;
-    /*
-    Default Konstruktor
-     */
+
     public Hersteller()
     {
         name = "";
@@ -28,8 +26,15 @@ public class Hersteller implements Herstellerbar, Comparable<Hersteller>, Serial
     /*
     Vollstaendig Konstruktor
      */
-    public Hersteller(String name)
+    public Hersteller(String name) throws IllegalArgumentException
     {
+        for(int i = 0; i < name.length(); i++)
+        {
+            if(Character.isLetterOrDigit(name.charAt(i)) == false)
+            {
+                throw new IllegalArgumentException("Hersteller darf keine Symbole enthalten.");
+            }
+        }
         this.name = name;
         countKuchen = 0;
     }
@@ -46,10 +51,6 @@ public class Hersteller implements Herstellerbar, Comparable<Hersteller>, Serial
     public int countKuchen()
     {
         return countKuchen;
-    }
-    public void setCountKuchen(int countKuchen)
-    {
-        this.countKuchen = countKuchen;
     }
     public void incrementCountKuchen(int amount)
     {

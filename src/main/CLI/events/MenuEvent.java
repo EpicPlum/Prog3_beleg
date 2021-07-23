@@ -9,6 +9,10 @@ public class MenuEvent extends InputEvent
     public MenuEvent(Object source, String text, console runner)
     {
         super(source, text);
+        if(runner == null)
+        {
+            throw new NullPointerException("console ist null.");
+        }
         this.runner = runner;
     }
 

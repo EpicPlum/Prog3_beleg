@@ -20,8 +20,8 @@ public class jbpMain
         hs.add(Allergen.Haselnuss);
         hs.add(Allergen.Sesamsamen);
 
-        Obstkuchen obstkuchen = new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), 24681, j, 250, hs, Duration.ofDays(5), "Erdbeer");
-        Kremkuchen kremkuchen = new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), 35681, j, 250, hs, Duration.ofDays(5), "Sahne");
+        Obstkuchen obstkuchen = new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), j, 250, hs, Duration.ofDays(5), "Erdbeer");
+        Kremkuchen kremkuchen = new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), j, 250, hs, Duration.ofDays(5), "Sahne");
 
         auto.addHersteller(j);
         auto.add(obstkuchen);

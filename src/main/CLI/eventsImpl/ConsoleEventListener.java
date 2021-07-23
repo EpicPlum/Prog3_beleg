@@ -7,8 +7,8 @@ import java.util.EventListener;
 public interface ConsoleEventListener extends EventListener
 {
     public void onCapacityEvent(CapacityEvent event);
-    public void onIntInputEvent(IntInputEvent event);
-    public void onInputEvent(InputEvent event);
+    public int onIntInputEvent(IntInputEvent event);
+    public String onInputEvent(InputEvent event);
     public void onMenuEvent(MenuEvent event);
     public void onArrayInputEvent(ArrayInputEvent event);
 }

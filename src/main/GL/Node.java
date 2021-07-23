@@ -1,5 +1,7 @@
 package main.GL;
 
+import main.GL.interfaces.Verkaufsobjektbar;
+
 import java.io.Serial;
 import java.io.Serializable;
 /*
@@ -9,7 +11,7 @@ public class Node implements Serializable
 {
         @Serial
         private static final long serialVersionUID = 8L;
-        Verkaufsobjekt data;
+        Verkaufsobjektbar data;
         Node next;
 
 
@@ -19,26 +21,18 @@ public class Node implements Serializable
             this.next = null;
         }
 
-        public Node(Verkaufsobjekt data)
+        public Node(Verkaufsobjektbar data)
         {
             this.data = data;
             this.next = null;
         }
 
-        public Verkaufsobjekt getData()
+        public Verkaufsobjektbar getData()
         {
             return data;
-        }
-        public void setData(Verkaufsobjekt data)
-        {
-            this.data = data;
         }
         public Node getNext()
         {
             return next;
-        }
-        public void setNext(Node next)
-        {
-            this.next = next;
         }
 }

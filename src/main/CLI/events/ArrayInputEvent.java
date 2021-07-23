@@ -7,7 +7,7 @@ public class ArrayInputEvent extends InputEvent
     public ArrayInputEvent(Object source, String text, String[] array)
     {
         super(source, text);
-        this.array = array;
+        setArray(array);
     }
 
     public String[] getArray()
@@ -17,6 +17,11 @@ public class ArrayInputEvent extends InputEvent
 
     public void setArray(String[] array)
     {
+        if(array == null)
+        {
+            throw new NullPointerException("Array darf nicht null sein.");
+        }
         this.array = array;
     }
+
 }

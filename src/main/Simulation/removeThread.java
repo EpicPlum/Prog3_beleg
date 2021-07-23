@@ -38,8 +38,13 @@ public class removeThread extends automatThread
                         e.printStackTrace();
                     }
             }
-            else if (getMode() == 3) {
-
+            else if (getMode() == 3)
+            {
+                try {
+                    removeOldestInpectionRandomAmount();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -99,27 +104,27 @@ public class removeThread extends automatThread
 
     public int removeOldestInpectionRandomAmount() throws InterruptedException
     {
-        int amount = ThreadLocalRandom.current().nextInt(0, getAutomat().size()+1);
-
         try {
             Thread.sleep(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         synchronized (getMonitor()) {
+            int amount = ThreadLocalRandom.current().nextInt(0, getAutomat().size()+1);
+            for(int i = 0; i < amount && getAutomat().size() <= amount; i++)
+            {
             while (threadActivity.isRemoving()) {
                 try {
                     while (getAutomat().size() <= 0) {
                         threadActivity.stopRemoving();
                         threadActivity.startAdding();
-                        System.out.println("Automat ist leer. Elemente koennen nicht entfernt werden.");
+                        //System.out.println("Automat ist leer. Elemente koennen nicht entfernt werden.");
                         addThread.getMonitor().notify();
                         removeThread.getMonitor().wait();
-                        //return 0;
+                        break;
                     }
                     removedFachnummer = findOldestInspection();
-                }
-                catch (NullPointerException e) {
+                } catch (NullPointerException e) {
                     threadActivity.startRemoving();
                     //removes Kuchen from Automat with oldest inspection date
 
@@ -127,7 +132,7 @@ public class removeThread extends automatThread
 
                 getAutomat().removeKuchen(removedFachnummer);
                 System.out.println("Entfernt Kuchen mit aeltesten Inspektionsdatum. --- Fachnummer: " + removedFachnummer + " --- " + Thread.currentThread().getName());
-
+            }
             }
             return removedFachnummer;
         }

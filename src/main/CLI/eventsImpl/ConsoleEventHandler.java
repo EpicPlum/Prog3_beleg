@@ -7,7 +7,12 @@ import java.util.List;
 
 public class ConsoleEventHandler
 {
-    private List<ConsoleEventListener_Imp> listenList = new LinkedList<>();
+    private List<ConsoleEventListener_Imp> listenList;
+
+    public ConsoleEventHandler()
+    {
+        listenList = new LinkedList<>();
+    }
 
     public boolean add(ConsoleEventListener_Imp listener)
     {
@@ -43,20 +48,24 @@ public class ConsoleEventHandler
         }
     }
 
-    public void handleIntInput(IntInputEvent event)
+    public int handleIntInput(IntInputEvent event)
     {
         for(ConsoleEventListener_Imp listener : listenList)
         {
-            listener.onIntInputEvent(event);
+            return listener.onIntInputEvent(event);
         }
+
+        return -1;
     }
 
-    public void handleInput(InputEvent event)
+    public String handleInput(InputEvent event)
     {
         for(ConsoleEventListener_Imp listener : listenList)
         {
-            listener.onInputEvent(event);
+            return listener.onInputEvent(event);
         }
+
+        return null;
     }
 
     public void handleArrayInput(ArrayInputEvent event)

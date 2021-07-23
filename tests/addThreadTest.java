@@ -1,4 +1,4 @@
-package tests;
+
 
 import main.GL.*;
 import main.GL.interfaces.Allergen;
@@ -39,14 +39,14 @@ public class addThreadTest
         auto = new Automat(10);
 
 
-        testKuchen1 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), 15282, new Hersteller("Herstelle"), 250, new ArrayList<Allergen>(), Duration.ofDays(3));
-        testKuchen2 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), 15482, new Hersteller("Herstellz"), 250, new ArrayList<Allergen>(), Duration.ofDays(3));
-        testKuchen3 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), 151182, new Hersteller("Herstelli"), 250, new ArrayList<Allergen>(), Duration.ofDays(3));
-        testKuchen4 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), 152, new Hersteller("Herstellop"), 250, new ArrayList<Allergen>(), Duration.ofDays(3));
-        testKuchen5 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), 145682, new Hersteller("Herstellio"), 250, new ArrayList<Allergen>(), Duration.ofDays(3));
-        testKuchen6 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), 1582, new Hersteller("Herstelln"), 250, new ArrayList<Allergen>(), Duration.ofDays(3));
-        kremkuchenNormal = new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), 35681, new Hersteller("Jacksons"), 250, new ArrayList<Allergen>(), Duration.ofDays(5), "Sahne");
-        obstkuchenNormal = new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), 24681, new Hersteller("Johnsons"), 250, new ArrayList<Allergen>(), Duration.ofDays(5), "Erdbeer");
+        testKuchen1 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), new Hersteller("Herstelle"), 250, new ArrayList<Allergen>(), Duration.ofDays(3));
+        testKuchen2 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), new Hersteller("Herstellz"), 250, new ArrayList<Allergen>(), Duration.ofDays(3));
+        testKuchen3 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), new Hersteller("Herstelli"), 250, new ArrayList<Allergen>(), Duration.ofDays(3));
+        testKuchen4 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), new Hersteller("Herstellop"), 250, new ArrayList<Allergen>(), Duration.ofDays(3));
+        testKuchen5 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), new Hersteller("Herstellio"), 250, new ArrayList<Allergen>(), Duration.ofDays(3));
+        testKuchen6 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), new Hersteller("Herstelln"), 250, new ArrayList<Allergen>(), Duration.ofDays(3));
+        kremkuchenNormal = new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), new Hersteller("Jacksons"), 250, new ArrayList<Allergen>(), Duration.ofDays(5), "Sahne");
+        obstkuchenNormal = new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), new Hersteller("Johnsons"), 250, new ArrayList<Allergen>(), Duration.ofDays(5), "Erdbeer");
 
         addThread = new addThread(auto, 1)
         {

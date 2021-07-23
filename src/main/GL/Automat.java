@@ -1,6 +1,7 @@
 package main.GL;
 
 import main.GL.interfaces.Allergen;
+import main.GL.interfaces.Verkaufsobjektbar;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -23,6 +24,7 @@ public class Automat implements Serializable
     private volatile int maxSize;
     private HashSet<Hersteller> herstellern = new HashSet<Hersteller>();
     private ArrayList<Integer> fachNummern = new ArrayList<Integer>();
+    private int letzteFachnummer = 0;
     private int numAllergene = 0;
     @Serial
     private static final long serialVersionUID = 1L;
@@ -33,7 +35,7 @@ public class Automat implements Serializable
     {
         head = null;
         size = 0;
-        maxSize = 0;
+        maxSize = 5;
     }
     //Konstruktor fuer gewuenschte Kapazitaet
     public Automat(int maxSize)
@@ -47,21 +49,11 @@ public class Automat implements Serializable
     {
         return head;
     }
-    public void setHead(Node head)
-    {
-        this.head = head;
-    }
     /*
     Laenge der List / Automat
      */
-    //TODO make automatfullexception
     public int size()
     {
-        //if(size >= maxSize)
-        //{
-        // throw new Index
-        //}
-
         return size;
     }
     public void setSize(int size)
@@ -83,20 +75,12 @@ public class Automat implements Serializable
     {
         return herstellern;
     }
-    public void setHerstellern(HashSet<Hersteller> herstellern)
-    {
-        this.herstellern = herstellern;
-    }
     /*
     fachNummern Getter
      */
     public ArrayList<Integer> getFachNummern()
     {
         return fachNummern;
-    }
-    public void setFachnummern(ArrayList<Integer> fachNummern)
-    {
-        this.fachNummern = fachNummern;
     }
     /*
     Allergene Getter
@@ -105,14 +89,10 @@ public class Automat implements Serializable
     {
         return numAllergene;
     }
-    public void setNumAllergene(int numAllergene)
-    {
-        this.numAllergene = numAllergene;
-    }
     /*
         Fuegt verkaufsobjekte und automat.Kuchen ein
      */
-    public void add(main.GL.Verkaufsobjekt added) throws NullPointerException, IllegalArgumentException, IndexOutOfBoundsException
+    public void add(Verkaufsobjektbar added) throws NullPointerException, IllegalArgumentException, IndexOutOfBoundsException
     {
         if(added == null)
         {
@@ -122,6 +102,10 @@ public class Automat implements Serializable
         {
             throw new IndexOutOfBoundsException("Automat ist voll.");
         }
+
+        added.setFachnummer(letzteFachnummer);
+
+
         //macht eine List der fachNummern
         for(int i = 0; i < getFachNummern().size(); i++)
         {
@@ -133,16 +117,15 @@ public class Automat implements Serializable
 
         //prueft ob es gibt ein Hersteller schon
         // dann increments
-        if(herstellern.contains(((Kuchen) added).getHersteller()))
+        if(added instanceof Kuchen)
         {
-            ((Kuchen) added).getHersteller().incrementCountKuchen(1);
-            fachNummern.add(added.getFachnummer());
-            //setInspektionsdatum(added, new Date(05112021));
-            size++;
+            if (herstellern.contains(((Kuchen) added).getHersteller()))
+            {
+                ((Kuchen) added).getHersteller().incrementCountKuchen(1);
+            }
+            else
+                throw new IllegalArgumentException("Um ein Kuchen einzufuegen, brauchen Sie einen Hersteller zuerst.");
         }
-        else
-            return;
-
 
         Node temp = new Node(added);
         temp.next = null;
@@ -165,6 +148,13 @@ public class Automat implements Serializable
 
 
         }
+
+        //added.setFachnummer(letzteFachnummer);
+        fachNummern.add(added.getFachnummer());
+        letzteFachnummer++;
+        //setInspektionsdatum(added, new Date(05112021));
+        size++;
+
     }
 
     public void addHersteller(Hersteller hersteller)
@@ -212,34 +202,38 @@ public class Automat implements Serializable
         {
             if(temp.data.getFachnummer() == fachnummer)
             {
-                ((Kuchen) temp.data).getHersteller().decrementCountKuchen(1);
+                if(temp.data instanceof Kuchen)
+                {
+                    ((Kuchen) temp.data).getHersteller().decrementCountKuchen(1);
+                }
                 //System.out.println(listHersteller());
             }
 
             head = temp.next;
             temp = head;
         }
-        while(temp != null)
+
+        temp = head;
+
+        if(temp != null && temp.data.getFachnummer() == fachnummer)
         {
-            while(temp != null && temp.data.getFachnummer() != fachnummer)
-            {
-                vor = temp;
-                temp = temp.next;
-            }
-
-            if(temp == null)
-            {
-                return;
-            }
-
-            if(temp != null && temp.data instanceof Kuchen)
-            {
-                //((Kuchen) temp.data).getHersteller().decrementCountKuchen(1);
-            }
-
-            vor.next = temp.next;
-            temp = vor.next;
+            head = temp.next;
         }
+
+
+        while(temp != null && temp.data.getFachnummer() != fachnummer)
+        {
+            vor = temp;
+            temp = temp.next;
+        }
+
+        if(temp == null)
+        {
+            size--;
+            return;
+        }
+
+        vor.next = temp.next;
 
         for(int i = 0; i < fachNummern.size(); i++)
         {
@@ -287,6 +281,7 @@ public class Automat implements Serializable
             }
         }
     }
+
     /*
         Wahrscheinlich gibts bessere Implementierung mit getClass() / instanceof
         1 = Verkaufsobjekt
@@ -305,7 +300,7 @@ public class Automat implements Serializable
             switch(option)
             {
                 case 1:
-                    if(loop.data instanceof main.GL.Verkaufsobjekt)
+                    if(loop.data instanceof Verkaufsobjektbar)
                     {
                         print += "*** " + loop.data.toString() + " ***\n";
                     }
@@ -418,6 +413,7 @@ public class Automat implements Serializable
         HashSet<String> vorhandAllergene = new HashSet<String>();
         EnumSet<Allergen> nichtVorhandAllergene = EnumSet.allOf(Allergen.class);
 
+
         while(temp != null && temp.data instanceof Kuchen)
         {
             Object[] currAllergen = ((Kuchen)temp.data).getAllergene().toArray();
@@ -428,6 +424,7 @@ public class Automat implements Serializable
             }
             temp = temp.next;
         }
+
 
         numAllergene = vorhandAllergene.size();
         return vorhandAllergene.size();
@@ -457,15 +454,16 @@ public class Automat implements Serializable
         return inspected;
     }
 
-    public void fachnummerSort()
+    public boolean fachnummerSort()
     {
         Node curr = head;
         Node loop = null;
         int temp;
 
+
         if(isEmpty())
         {
-            return;
+            return false;
         }
 
         while(curr != null)
@@ -484,9 +482,11 @@ public class Automat implements Serializable
             }
             curr = curr.next;
         }
+
+        return true;
     }
 
-    public void herstellerSort()
+    public boolean herstellerSort()
     {
         Node curr = head;
         Node loop = null;
@@ -494,7 +494,7 @@ public class Automat implements Serializable
 
         if(isEmpty())
         {
-            return;
+            return false;
         }
 
         while(curr != null)
@@ -513,9 +513,11 @@ public class Automat implements Serializable
             }
             curr = curr.next;
         }
+
+        return true;
     }
 
-    public void haltbarkeitSort()
+    public boolean haltbarkeitSort()
     {
         Node curr = head;
         Node loop = null;
@@ -523,7 +525,7 @@ public class Automat implements Serializable
 
         if(isEmpty())
         {
-            return;
+            return false;
         }
 
         while(curr != null)
@@ -542,6 +544,8 @@ public class Automat implements Serializable
             }
             curr = curr.next;
         }
+
+        return true;
     }
 
 }

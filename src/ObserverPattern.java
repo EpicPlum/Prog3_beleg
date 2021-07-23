@@ -1,14 +1,4 @@
-import main.CLI.observerPatternImpl.AllergenObserver;
-import main.CLI.observerPatternImpl.CapacityObserver;
-import main.CLI.observerPatternImpl.ObservableAllergen;
-import main.CLI.observerPatternImpl.ObservableCapacity;
-import main.GL.*;
-import main.GL.interfaces.Allergen;
 
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Date;
 
 
 public class ObserverPattern {
@@ -16,6 +6,7 @@ public class ObserverPattern {
         sollte folgende Ausgabe produzieren:
 
      */
+    /*
     public static void main(String[] args)
     {
         Verkaufsobjekt obj = new Verkaufsobjekt();
@@ -69,4 +60,5 @@ public class ObserverPattern {
         capacity.checkCapacity(auto);
         allergene.checkAllergens(auto);
     }
+     */
 }

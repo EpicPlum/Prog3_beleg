@@ -11,18 +11,18 @@ import java.util.Date;
 
 public class Obsttorte extends Obstkuchen implements main.GL.interfaces.Obsttortebar, Serializable
 {
-    String kremsorte;
+    private String kremsorte;
     @Serial
     private static final long serialVersionUID = 6L;
 
     public Obsttorte()
     {
-        super();
+        kremsorte = "";
     }
 
-    public Obsttorte(BigDecimal preis, Date inspektionsdatum, int fachnummer, Hersteller hersteller, int naehrwert, Collection<Allergen> allergene, Duration haltbarkeit, String obstsorte, String kremsorte)
+    public Obsttorte(BigDecimal preis, Date inspektionsdatum, Hersteller hersteller, int naehrwert, Collection<Allergen> allergene, Duration haltbarkeit, String obstsorte, String kremsorte)
     {
-        super(preis, inspektionsdatum, fachnummer, hersteller, naehrwert, allergene, haltbarkeit, obstsorte);
+        super(preis, inspektionsdatum, hersteller, naehrwert, allergene, haltbarkeit, obstsorte);
         this.kremsorte = kremsorte;
     }
 

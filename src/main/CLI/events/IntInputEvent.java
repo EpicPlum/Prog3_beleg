@@ -12,6 +12,6 @@ public class IntInputEvent extends EventObject
     }
     public int getNum()
     {
-        return this.num;
+        return num;
     }
 }

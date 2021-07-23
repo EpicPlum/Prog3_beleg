@@ -20,20 +20,17 @@ public class Obstkuchen extends Kuchen implements Obstkuchenbar, Serializable
     private String obstsorte;
     @Serial
     private static final long serialVersionUID = 5L;
-    /*
-    Default Konstruktor
-     */
+
     public Obstkuchen()
     {
-        super();
         obstsorte = "";
     }
     /*
     Vollstaendig Konstruktor
      */
-    public Obstkuchen(BigDecimal preis, Date inspektionsdatum, int fachnummer, Hersteller hersteller, int naehrwert, Collection<Allergen> allergene, Duration haltbarkeit, String obstsorte) throws NullPointerException
+    public Obstkuchen(BigDecimal preis, Date inspektionsdatum, Hersteller hersteller, int naehrwert, Collection<Allergen> allergene, Duration haltbarkeit, String obstsorte) throws NullPointerException
     {
-        super(preis, inspektionsdatum, fachnummer, hersteller, naehrwert, allergene, haltbarkeit);
+        super(preis, inspektionsdatum, hersteller, naehrwert, allergene, haltbarkeit);
 
         if(obstsorte == null)
         {

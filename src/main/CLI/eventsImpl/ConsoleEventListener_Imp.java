@@ -10,40 +10,56 @@ public class ConsoleEventListener_Imp implements ConsoleEventListener
     {
         this.name = name;
     }
+
+    public String getName()
+    {
+        return name;
+    }
+
     @Override
-    public void onCapacityEvent(CapacityEvent event)
+    public void onCapacityEvent(CapacityEvent event) throws IllegalArgumentException
     {
         if(event.getNum() > 0 && event.getAutomat() != null)
         {
             event.getAutomat().setMaxSize(event.getNum());
         }
+        else
+            throw new IllegalArgumentException("Ungueltig int und Automat.");
     }
 
     @Override
-    public void onIntInputEvent(IntInputEvent event)
+    public int onIntInputEvent(IntInputEvent event)
     {
-
+        return event.getNum();
     }
 
     @Override
-    public void onInputEvent(InputEvent event)
+    public String onInputEvent(InputEvent event)
     {
-        //event.getText().split(" ");
+        return event.getText();
     }
 
     @Override
-    public void onArrayInputEvent(ArrayInputEvent event)
+    public void onArrayInputEvent(ArrayInputEvent event) throws NullPointerException
     {
         if(event.getText() != null)
         {
             event.setArray(event.getText().split(" "));
         }
+        else
+            throw new NullPointerException("String ist null");
     }
 
     @Override
-    public void onMenuEvent(MenuEvent event)
+    public void onMenuEvent(MenuEvent event) throws NullPointerException
     {
-        event.getConsole().setMenuEingabe(event.getText());
+        if(event.getText() != null)
+        {
+            event.getConsole().setMenuEingabe(event.getText());
+        }
+        else
+            throw new NullPointerException("Text ist null.");
+
     }
 
 

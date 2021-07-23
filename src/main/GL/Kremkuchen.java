@@ -20,20 +20,17 @@ public class Kremkuchen extends Kuchen implements Kremkuchenbar, Serializable
     private String kremsorte;
     @Serial
     private static final long serialVersionUID = 3L;
-    /*
-    Default Konstruktor
-     */
+
     public Kremkuchen()
     {
-        super();
         kremsorte = "";
     }
     /*
     Vollstaendig Konstruktor
      */
-    public Kremkuchen(BigDecimal preis, Date inspektionsdatum, int fachnummer, Hersteller hersteller, int naehrwert, Collection<Allergen> allergene, Duration haltbarkeit, String kremsorte) throws NullPointerException
+    public Kremkuchen(BigDecimal preis, Date inspektionsdatum, Hersteller hersteller, int naehrwert, Collection<Allergen> allergene, Duration haltbarkeit, String kremsorte) throws NullPointerException
     {
-        super(preis, inspektionsdatum, fachnummer, hersteller, naehrwert, allergene, haltbarkeit);
+        super(preis, inspektionsdatum, hersteller, naehrwert, allergene, haltbarkeit);
 
         if(kremsorte == null)
         {

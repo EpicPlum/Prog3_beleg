@@ -18,21 +18,21 @@ public class Verkaufsobjekt implements Verkaufsobjektbar, Serializable
     private BigDecimal preis;
     private Date inspektionsdatum;
     private int fachnummer;
+    private int letzteFachnummer = 0;
     @Serial
     private static final long serialVersionUID = 7L;
-    /*
-    Default Konstruktor
-     */
+
     public Verkaufsobjekt()
     {
-        preis = new BigDecimal(0.0);
-        inspektionsdatum = new Date(2);
+        preis = new BigDecimal(0);
+        inspektionsdatum = new Date(0);
         fachnummer = 0;
+        letzteFachnummer = 0;
     }
     /*
     Vollstaendig Konstruktor
      */
-    public Verkaufsobjekt(BigDecimal preis, Date inspektionsdatum, int fachnummer) throws NullPointerException, IllegalArgumentException
+    public Verkaufsobjekt(BigDecimal preis, Date inspektionsdatum) throws NullPointerException, IllegalArgumentException
     {
         if(preis == null || inspektionsdatum == null)
         {
@@ -42,7 +42,6 @@ public class Verkaufsobjekt implements Verkaufsobjektbar, Serializable
 
         this.preis = preis;
         this.inspektionsdatum = inspektionsdatum;
-        this.fachnummer = fachnummer;
     }
 
     @Override
