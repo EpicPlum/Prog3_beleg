@@ -29,11 +29,6 @@ public class inspectionThread extends automatThread
     {
         synchronized (getMonitor()) {
             //inspects random cake in automat through use of a random fachnummer
-            try {
-                Thread.sleep(0);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             if (getAutomat().size() == 0)
             {
                 System.out.println("Keine Kuchen zu inspektieren.");

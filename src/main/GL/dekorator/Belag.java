@@ -1,23 +1,23 @@
 package main.GL.dekorator;
 
+import main.GL.*;
 import main.GL.interfaces.Allergen;
-import main.GL.interfaces.Herstellerbar;
 import main.GL.interfaces.Kuchenbar;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 public class Belag extends BelagDekorator implements Serializable
 {
     private String name;
     private BigDecimal preis = new BigDecimal(0);
     private int naehrwert = 0;
-    private Collection<Allergen> allergen = new ArrayList<Allergen>();
+    private Collection<Allergen> allergen = new HashSet<Allergen>();
     private Duration haltbarkeit;
     @Serial
     private static final long serialVersionUID = 11L;
@@ -26,36 +26,26 @@ public class Belag extends BelagDekorator implements Serializable
     {
         super(newKuchen);
 
-
         if(newKuchen.getName() != null)
             this.name =  name + ", " + tempKuchen.getName();
         this.preis = preis.add(tempKuchen.getPreis());
-        System.out.println(preis);
-        System.out.println(tempKuchen.getPreis());
         this.naehrwert = naehrwert + tempKuchen.getNaehrwert();
         this.allergen.addAll(tempKuchen.getAllergene());
         this.allergen.addAll(allergen);
-        System.out.println(tempKuchen.getHaltbarkeit().toDays());
         this.haltbarkeit = Duration.ofDays(Math.min(haltbarkeit.toDays(), tempKuchen.getHaltbarkeit().toDays()));
     }
 
-
-
-    public Herstellerbar getHersteller()
-    {
-        return tempKuchen.getHersteller();
-    }
     public Collection<Allergen> getAllergene()
     {
-        return tempKuchen.getAllergene();
+        return allergen;
     }
     public int getNaehrwert()
     {
-        return tempKuchen.getNaehrwert();
+        return  naehrwert;
     }
     public Duration getHaltbarkeit()
     {
-        return tempKuchen.getHaltbarkeit();
+        return haltbarkeit;
     }
 
     @Override
@@ -64,39 +54,78 @@ public class Belag extends BelagDekorator implements Serializable
         return name;
     }
 
+    public Hersteller getHersteller()
+    {
+        return super.getHersteller();
+    }
+
+    @Override
+    public void setHersteller(Hersteller hersteller)
+    {
+        super.setHersteller(hersteller);
+    }
+
+    @Override
+    public void setHaltbarkeit(Duration haltbarkeit)
+    {
+        this.haltbarkeit = haltbarkeit;
+    }
+
     public BigDecimal getPreis()
     {
-        return tempKuchen.getPreis();
+        return preis;
     }
 
     @Override
     public Date getInspektionsdatum()
     {
-        return tempKuchen.getInspektionsdatum();
+        return super.getInspektionsdatum();
     }
 
     @Override
     public int getFachnummer()
     {
-        return tempKuchen.getFachnummer();
+        return super.getFachnummer();
     }
 
     @Override
     public void setFachnummer(int fachnummer)
     {
-        tempKuchen.setFachnummer(fachnummer);
+        super.setFachnummer(fachnummer);
+    }
+
+    @Override
+    public void setInspektionsdatum(Date inspektionsdatum)
+    {
+        super.setInspektionsdatum(inspektionsdatum);
     }
 
     @Override
     public String toString()
     {
-        if(tempKuchen instanceof Kuchenboden)
-        {
-            return "Namen: " + name + "Preis: " + preis + " Naehrwert: " + naehrwert + " Allergene: " + allergen + " Haltbarkeit: " + haltbarkeit.toDays() + " Tage --- " + tempKuchen.toString();
-        }
-        else
-            return "Namen: " + name + "Preis: " + preis + " Naehrwert: " + naehrwert + " Allergene: " + allergen + " Haltbarkeit: " + haltbarkeit.toDays() + " Tage --- ";
-
+        return "Namen: " + name + "Preis: " + preis + " Naehrwert: " + naehrwert + " Allergene: " + allergen + " Haltbarkeit: " + haltbarkeit.toDays() + " Tage - " + tempKuchen.belagToString();
     }
 
+    @Override
+    public String belagToString()
+    {
+        if(tempKuchen instanceof Kuchen)
+        {
+            return "Inspektionsdatum: " + getInspektionsdatum() + " - Fachnummer: " + getFachnummer() + " - Kuchentyp: Kuchen - " + "Hersteller: " + getHersteller().getName();
+        }
+        else if(tempKuchen instanceof Kremkuchen)
+        {
+            return "Inspektionsdatum: " + getInspektionsdatum() + " - Fachnummer: " + getFachnummer() + " - Kuchentyp: Kremkuchen - " + "Hersteller: " + getHersteller().getName();
+        }
+        else if(tempKuchen instanceof Obstkuchen)
+        {
+            return "Inspektionsdatum: " + getInspektionsdatum() + " - Fachnummer: " + getFachnummer() + " - Kuchentyp: Obstkuchen - " + "Hersteller: " + getHersteller().getName();
+        }
+        else if(tempKuchen instanceof Obsttorte)
+        {
+            return "Inspektionsdatum: " + getInspektionsdatum() + " - Fachnummer: " + getFachnummer() + " - Kuchentyp: Obsttorte - " + "Hersteller: " + getHersteller().getName();
+        }
+        else
+            return "";
+    }
 }

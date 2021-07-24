@@ -12,8 +12,8 @@ import org.mockito.Mock;
 
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.InputMismatchException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,8 +50,8 @@ public class CLITest
 
     private Obstkuchen obstkuchenNormal;
 
-    private ArrayList<Allergen> ge;
-    private ArrayList<Allergen> hs;
+    private HashSet<Allergen> ge;
+    private HashSet<Allergen> hs;
 
     private Automat auto;
     private Automat auto2;
@@ -97,24 +97,24 @@ public class CLITest
         listener = new ConsoleEventListener_Imp("listener");
         handler = new ConsoleEventHandler();
 
-        hs = new ArrayList<Allergen>();
+        hs = new HashSet<Allergen>();
         hs.add(Allergen.Haselnuss);
         hs.add(Allergen.Sesamsamen);
-        ge = new ArrayList<Allergen>();
+        ge = new HashSet<Allergen>();
         ge.add(Allergen.Gluten);
         ge.add(Allergen.Erdnuss);
 
         herstello = new Hersteller("Herstello");
         herstella = new Hersteller("Herstella");
 
-        kuchenNormal = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstello, 250, new ArrayList<Allergen>(), Duration.ofDays(3));
+        kuchenNormal = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstello, 250, new HashSet<Allergen>(), Duration.ofDays(3));
 
-        testKuchen1 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstello, 250, new ArrayList<Allergen>(), Duration.ofDays(3));
-        testKuchen2 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstello, 250, new ArrayList<Allergen>(), Duration.ofDays(3));
-        testKuchen3 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstello, 250, new ArrayList<Allergen>(), Duration.ofDays(3));
-        testKuchen4 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstello, 250, new ArrayList<Allergen>(), Duration.ofDays(3));
+        testKuchen1 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstello, 250, new HashSet<Allergen>(), Duration.ofDays(3));
+        testKuchen2 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstello, 250, new HashSet<Allergen>(), Duration.ofDays(3));
+        testKuchen3 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstello, 250, new HashSet<Allergen>(), Duration.ofDays(3));
+        testKuchen4 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstello, 250, new HashSet<Allergen>(), Duration.ofDays(3));
         testKuchen5 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstella, 250, ge, Duration.ofDays(3));
-        testKuchen6 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstella, 250, new ArrayList<Allergen>(), Duration.ofDays(3));
+        testKuchen6 = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstella, 250, new HashSet<Allergen>(), Duration.ofDays(3));
 
         kremkuchenNormal = new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), herstella, 250, hs, Duration.ofDays(5), "Sahne");
 

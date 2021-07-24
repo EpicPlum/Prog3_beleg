@@ -19,5 +19,7 @@ public class consoleExe
         CapacityObserver capacity = new CapacityObserver(con, "capacity");
         AllergenObserver allergene = new AllergenObserver(con, "allergene");
         con.start();
+
+        //System.out.println(con.commaPreisInput("1,55"));
     }
 }

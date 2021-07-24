@@ -1,8 +1,45 @@
-1. Speichern und Laden der Geschäftslogik mit JOS und JBP
-2. Stellvertreter-Tests für das Lesen und Schreiben aus/in Streams
-3. Architekturdiagramm
+Schichtenaufteilung* 3 - Ja
+Architekturdiagramm 1 - Ja
+Zuständigkeit 2 - Ja
+Paketierung 2 - Ja
+Benennung 2 - Ja
+keine Duplikate 1 - Teilweise
 
-Erreichte Stand - 0
+Tests:
+Testqualität* 7 - Teilweise
+Testabdeckung GL* 5 - Ja
+Testabdeckung Rest* 5 - Teilweise
+Mockito richtig verwendet* 5 - Teilweise
+Spytests (Verhalten) 3 - Teilweise
+keine unbeabsichtigt fehlschlagenden Test 1 - Nein
+
+Fehler- freiheit:
+Kapselung 5 - Ja
+keine Ablauffehler 5 - Teilweise
+
+Basis- funktionalität:
+CRUD 2 - Ja
+CLI 2 - Ja
+Simulation 1 2 - Ja
+GUI 2 - Ja
+I/O 2 - Ja
+
+Funktionalität:
+vollständige, threadsichere GL 3 - Ja
+vollständiges CLI inkl. alternatives CLI 3 - Ja
+vollständiges GUI 2 - Ja
+events (mindestens 3) 2 - Ja
+observer ^ property change propagation 2 - Ja
+angemessene Aufzählungstypen 2 - Ja
+drag&drop 2 - Nein
+Simulationen 2 & 3 3 - Ja
+data binding 1 - Ja
+JBP und JOS 3 - Ja
+
+extra Anforderung:
+Kuchen nach Dekoratormuster 4 - Ja
+korrekte Aggregationen 4 - Ja
+Erstellung der Kuchen im UI und GUI - Beide
 
 Github:
 https://github.com/EpicPlum/Prog3_beleg

@@ -1,18 +1,18 @@
 import main.GL.*;
 import main.GL.interfaces.Allergen;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 public class AutomatTest
@@ -43,8 +43,8 @@ public class AutomatTest
     private Hersteller jacobs;
     private Hersteller herstello;
 
-    private ArrayList<Allergen> ge;
-    private ArrayList<Allergen> hs;
+    private HashSet<Allergen> ge;
+    private HashSet<Allergen> hs;
 
     private Node nodeTest;
 
@@ -81,17 +81,17 @@ public class AutomatTest
         jacobs = new Hersteller("Jacobs");
         herstello = new Hersteller("Herstello");
 
-        hs = new ArrayList<Allergen>();
+        hs = new HashSet<Allergen>();
         hs.add(Allergen.Haselnuss);
         hs.add(Allergen.Sesamsamen);
-        ge = new ArrayList<Allergen>();
+        ge = new HashSet<Allergen>();
         ge.add(Allergen.Gluten);
         ge.add(Allergen.Erdnuss);
 
         vkDefault = new Verkaufsobjekt();
         vkNormal = new Verkaufsobjekt(BigDecimal.ONE, new Date(2021, 04, 22));
         kuchenDefault = new Kuchen();
-        kuchenNormal = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstello, 250, new ArrayList<Allergen>(), Duration.ofDays(3));
+        kuchenNormal = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstello, 250, new HashSet<Allergen>(), Duration.ofDays(3));
         kremkuchenDefault = new Kremkuchen();
         kremkuchenNormal = new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), jacobs, 250, hs, Duration.ofDays(5), "Sahne");
         obstkuchenDefault = new Obstkuchen();
@@ -152,7 +152,7 @@ public class AutomatTest
     {
         when(herstellerMock.getName()).thenReturn("Johnsons");
         auto.addHersteller(herstellerMock);
-        assertEquals(4, auto.getHerstellern().size());
+        assertEquals(3, auto.getHerstellern().size());
     }
 
     @Test
@@ -271,13 +271,13 @@ public class AutomatTest
     @Test
     public void kuchenNullTest()
     {
-        assertThrows(NullPointerException.class, () -> kuchenNull = new Kuchen(null, new Date(2021, 04, 19), null, 250, new ArrayList<Allergen>(), Duration.ofDays(3)));
+        assertThrows(NullPointerException.class, () -> kuchenNull = new Kuchen(null, new Date(2021, 04, 19), null, 250, new HashSet<Allergen>(), Duration.ofDays(3)));
     }
 
     @Test
     public void kuchenHerstellerNullTest()
     {
-        assertThrows(NullPointerException.class, () -> kuchenNull = new Kuchen(new BigDecimal(0), new Date(2021, 04, 19), null, 250, new ArrayList<Allergen>(), Duration.ofDays(3)));
+        assertThrows(NullPointerException.class, () -> kuchenNull = new Kuchen(new BigDecimal(0), new Date(2021, 04, 19), null, 250, new HashSet<Allergen>(), Duration.ofDays(3)));
     }
 
     @Test
@@ -342,7 +342,7 @@ public class AutomatTest
     public void kremkuchenToStringTest()
     {
         assertEquals("Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 " +
-                "- Hersteller: Jacobs - Allergene: [Haselnuss, Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5" +
+                "- Hersteller: Jacobs - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5" +
                 " Tage - Kremsorte: Sahne", kremkuchenNormal.toString());
     }
 
@@ -380,7 +380,7 @@ public class AutomatTest
     public void obstkuchenToStringTest()
     {
         assertEquals("Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - " +
-                "Fachnummer: 0 - Hersteller: Johnsons - Allergene: [Haselnuss, Sesamsamen] - " +
+                "Fachnummer: 0 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - " +
                 "Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer", obstkuchenNormal.toString());
     }
 
@@ -417,7 +417,7 @@ public class AutomatTest
     @Test
     public void obsttorteToStringTest()
     {
-        assertEquals("Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Johnsons - Allergene: [Haselnuss, Sesamsamen] - Naehrwert: 250" +
+        assertEquals("Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250" +
                 " - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne", obsttorteNormal.toString());
     }
 
@@ -607,7 +607,7 @@ public class AutomatTest
     @Test
     public void removeHerstellerNull()
     {
-        auto2.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), johnsons, 250, new ArrayList<Allergen>(), Duration.ofDays(3)));
+        auto2.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), johnsons, 250, new HashSet<Allergen>(), Duration.ofDays(3)));
         auto2.add(new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5), "Sahne"));
         auto2.add(new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5), "Erdbeer"));
         assertThrows(NullPointerException.class, () -> auto2.removeHersteller(null));
@@ -616,7 +616,7 @@ public class AutomatTest
     @Test
     public void removeHerstellerNormal()
     {
-        auto2.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), johnsons, 250, new ArrayList<Allergen>(), Duration.ofDays(3)));
+        auto2.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), johnsons, 250, new HashSet<Allergen>(), Duration.ofDays(3)));
         auto2.add(new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5), "Sahne"));
         auto2.add(new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5), "Erdbeer"));
         auto2.removeHersteller("Johnsons");
@@ -649,7 +649,7 @@ public class AutomatTest
     @Test
     public void lv1Test()
     {
-        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Johnsons - Allergene: [Haselnuss, Sesamsamen] - Naehrwert: 250 - " +
+        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - " +
                 "Haltbarkeit: 5 Tage ***\n", auto2.listVerkaufsobjekte(1));
     }
 
@@ -657,14 +657,14 @@ public class AutomatTest
     public void lv2Test()
     {
         assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Johnsons " +
-                "- Allergene: [Haselnuss, Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage ***\n", auto2.listVerkaufsobjekte(2));
+                "- Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage ***\n", auto2.listVerkaufsobjekte(2));
     }
 
     @Test
     public void lv3Test()
     {
         auto.add(kremkuchenNormal);
-        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Jacobs - Allergene: [Haselnuss, Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage" +
+        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Jacobs - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage" +
                 " - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(3));
     }
 
@@ -672,7 +672,7 @@ public class AutomatTest
     public void lv4Test()
     {
         auto2.add(obstkuchenNormal);
-        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Johnsons - Allergene: [Haselnuss, Sesamsamen] - Naehrwert: 250 - " +
+        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - " +
                 "Haltbarkeit: 5 Tage - Obstsorte: Erdbeer ***\n", auto2.listVerkaufsobjekte(4));
     }
 
@@ -680,7 +680,7 @@ public class AutomatTest
     public void lv5Test()
     {
         auto2.add(obsttorteNormal);
-        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Johnsons - Allergene: [Haselnuss, Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer " +
+        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer " +
                 "- Kremsorte: Sahne ***\n", auto2.listVerkaufsobjekte(5));
     }
 
@@ -719,7 +719,7 @@ public class AutomatTest
     public void la2Test()
     {
         auto.add(obsttorteNormal);
-        assertEquals("Nicht vorhandene Allergene im Automat: [Gluten, Erdnuss]", auto.listAllergene(2));
+        assertEquals("Nicht vorhandene Allergene im Automat: [Gluten, Erdnuss, Milch]", auto.listAllergene(2));
     }
     /*------------------------------------------------------------------------------------------------------------------
     setInspektionsDatum
@@ -773,9 +773,10 @@ public class AutomatTest
         auto.add(kuchenNormal);
         auto.add(kremkuchenNormal);
         auto.add(obsttorteNormal);
+        auto.fachnummerSort();
         assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Thu May 19 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Herstello - Allergene: [] - Naehrwert: 250 - Haltbarkeit: 3 Tage ***\n" +
-                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Jacobs - Allergene: [Haselnuss, Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Kremsorte: Sahne ***\n" +
-                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 2 - Hersteller: Johnsons - Allergene: [Haselnuss, Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(2));
+                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Jacobs - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Kremsorte: Sahne ***\n" +
+                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 2 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(2));
     }
 
     //herstellerSort
@@ -792,12 +793,13 @@ public class AutomatTest
         auto.add(kuchenNormal);
         auto.add(kremkuchenNormal);
         auto.add(obsttorteNormal);
+        auto.herstellerSort();
         assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Thu May 19 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Herstello" +
                 " - Allergene: [] - Naehrwert: 250 - Haltbarkeit: 3 Tage ***\n" +
                 "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Jacobs" +
-                " - Allergene: [Haselnuss, Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Kremsorte: Sahne ***\n" +
+                " - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Kremsorte: Sahne ***\n" +
                 "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 2 - Hersteller: Johnsons " +
-                "- Allergene: [Haselnuss, Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(2));
+                "- Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(2));
     }
 
     //haltbarkeitSort
@@ -814,8 +816,9 @@ public class AutomatTest
         auto.add(kuchenNormal);
         auto.add(kremkuchenNormal);
         auto.add(obsttorteNormal);
+        auto.haltbarkeitSort();
         assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Thu May 19 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Herstello - Allergene: [] - Naehrwert: 250 - Haltbarkeit: 3 Tage ***\n" +
-                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Jacobs - Allergene: [Haselnuss, Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Kremsorte: Sahne ***\n" +
-                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 2 - Hersteller: Johnsons - Allergene: [Haselnuss, Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(2));
+                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Jacobs - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Kremsorte: Sahne ***\n" +
+                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 2 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(2));
     }
 }

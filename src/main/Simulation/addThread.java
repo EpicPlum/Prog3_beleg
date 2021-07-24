@@ -53,7 +53,6 @@ public class addThread extends automatThread
         {
             return null;
         }
-
             //adds randomly generated Kuchen to Automat
             int kuchenArt = ThreadLocalRandom.current().nextInt(1, 5);
 
@@ -67,22 +66,14 @@ public class addThread extends automatThread
 
     public Kuchen addRandomInspection() throws InterruptedException
     {
-        try {
-            Thread.sleep(0);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         synchronized (getMonitor()) {
-            while (threadActivity.isAdding()) {
-
                 while (getAutomat().size() >= getAutomat().maxSize()) {
-                    threadActivity.stopAdding();
-                    threadActivity.startRemoving();
+                    //threadActivity.stopAdding();
+                    //threadActivity.startRemoving();
                     System.out.println("Automat ist voll.");
                     removeThread.getMonitor().notify();
                     addThread.getMonitor().wait();
-                    return null;
+                    break;
                 }
                 //adds randomly generated Kuchen to Automat
                 int kuchenArt = ThreadLocalRandom.current().nextInt(1, 5);
@@ -93,7 +84,6 @@ public class addThread extends automatThread
 
                 System.out.println("Fuegt zufaellig Kuchen ein. --- " + added + " --- "+ Thread.currentThread().getName());
 
-            }
         }
         return added;
     }

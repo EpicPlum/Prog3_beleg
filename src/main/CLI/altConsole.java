@@ -23,11 +23,11 @@ public class altConsole extends console
         System.out.println("-- LoeschModus --");
         System.out.println("[Fachnummer] - Entfernt den Kuchen\n");
 
-        getScannér().nextLine();
+        getScanner().nextLine();
 
-        if(getScannér().hasNextInt())
+        if(getScanner().hasNextInt())
         {
-            IntInputEvent intIn = new IntInputEvent(this,getScannér().nextInt());
+            IntInputEvent intIn = new IntInputEvent(this,getScanner().nextInt());
             if(this.getConsoleHandler() != null)
                 getAutomat().removeKuchen(getConsoleHandler().handleIntInput(intIn));
             return;
@@ -44,11 +44,11 @@ public class altConsole extends console
         System.out.println("hersteller - Anzeige der Hersteller mit der Anzahl der Kuchen");
         System.out.println("kuchen [Typ] - Anzeige der Kuchen gefiltert nach Typ\n");
 
-        getScannér().nextLine();
+        getScanner().nextLine();
 
         //String[] line = scnr.nextLine().split(" ");
         String[] line = {};
-        ArrayInputEvent input = new ArrayInputEvent(this, getScannér().nextLine(), line);
+        ArrayInputEvent input = new ArrayInputEvent(this, getScanner().nextLine(), line);
 
         if(this.getConsoleHandler() != null)
         {
@@ -105,9 +105,9 @@ public class altConsole extends console
         System.out.println("\nKupec Kuchen Automat - Willem Kupec 577468\n");
         System.out.println("Wie viel Platz brauchen Sie?");
 
-        if(getScannér().hasNextInt())
+        if(getScanner().hasNextInt())
         {
-            CapacityEvent cEvent = new CapacityEvent(this, getScannér().nextInt(), getAutomat());
+            CapacityEvent cEvent = new CapacityEvent(this, getScanner().nextInt(), getAutomat());
             if(this.getConsoleHandler() != null)
                 getConsoleHandler().handleCapacity(cEvent);
         }
@@ -126,7 +126,7 @@ public class altConsole extends console
             System.out.println(":q - Quit");
 
 
-            MenuEvent mEvent = new MenuEvent(this, getScannér().next(), runner);
+            MenuEvent mEvent = new MenuEvent(this, getScanner().next(), runner);
             if(this.getConsoleHandler() != null)
                 getConsoleHandler().handleMenu(mEvent);
 

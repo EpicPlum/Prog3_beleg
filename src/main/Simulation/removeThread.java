@@ -51,10 +51,8 @@ public class removeThread extends automatThread
 
     public synchronized static int removeRandom(){
             //removes randomly selected Kuchen from Automat
-            //try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
 
             if (getAutomat().size() == 0) {
-                //System.out.println("Automat ist leer. Elemente koennen nicht entfernt werden.");
                 return 0;
             }
 
@@ -63,40 +61,32 @@ public class removeThread extends automatThread
 
 
             getAutomat().removeKuchen(removedFachnummer);
-            System.out.println("Entfernt zufaellig Kuchen. --- Fachnummer: " + removedFachnummer);
+            System.out.println("Entfernt zufaellig Kuchen.");
             return removedFachnummer;
     }
 
     public int removeOldestInpection() throws InterruptedException
     {
-        try {
-            Thread.sleep(0);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
             synchronized (getMonitor()) {
-                while (threadActivity.isRemoving()) {
                     try {
                         while (getAutomat().size() <= 0) {
-                            threadActivity.stopRemoving();
-                            threadActivity.startAdding();
                             System.out.println("Automat ist leer. Elemente koennen nicht entfernt werden.");
                             addThread.getMonitor().notify();
                             removeThread.getMonitor().wait();
-                            //return 0;
+                            break;
                         }
                         removedFachnummer = findOldestInspection();
                     }
-                    catch (NullPointerException e) {
-                        threadActivity.startRemoving();
+                    catch (NullPointerException e)
+                    {
+                        addThread.getMonitor().notify();
+                        removeThread.getMonitor().wait();
                     //removes Kuchen from Automat with oldest inspection date
-
                     }
 
                     getAutomat().removeKuchen(removedFachnummer);
-                    System.out.println("Entfernt Kuchen mit aeltesten Inspektionsdatum. --- Fachnummer: " + removedFachnummer + " --- " + Thread.currentThread().getName());
+                    System.out.println("Entfernt Kuchen mit aeltesten Inspektionsdatum. " + " --- " + Thread.currentThread().getName());
 
-                }
                 return removedFachnummer;
             }
 
@@ -104,20 +94,13 @@ public class removeThread extends automatThread
 
     public int removeOldestInpectionRandomAmount() throws InterruptedException
     {
-        try {
-            Thread.sleep(0);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         synchronized (getMonitor()) {
             int amount = ThreadLocalRandom.current().nextInt(0, getAutomat().size()+1);
             for(int i = 0; i < amount && getAutomat().size() <= amount; i++)
             {
-            while (threadActivity.isRemoving()) {
+            while (currentThread().isAlive()) {
                 try {
                     while (getAutomat().size() <= 0) {
-                        threadActivity.stopRemoving();
-                        threadActivity.startAdding();
                         //System.out.println("Automat ist leer. Elemente koennen nicht entfernt werden.");
                         addThread.getMonitor().notify();
                         removeThread.getMonitor().wait();
@@ -125,7 +108,8 @@ public class removeThread extends automatThread
                     }
                     removedFachnummer = findOldestInspection();
                 } catch (NullPointerException e) {
-                    threadActivity.startRemoving();
+                    addThread.getMonitor().notify();
+                    removeThread.getMonitor().wait();
                     //removes Kuchen from Automat with oldest inspection date
 
                 }

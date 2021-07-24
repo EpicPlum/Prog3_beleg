@@ -15,10 +15,8 @@ public class AllergenObserver extends Observer_Impl
     public boolean update()
     {
         int before = getConsole().getAutomat().getNumAllergene();
-        System.out.println(getConsole().getAutomat().listAllergene(1));
 
         int after = getConsole().getAutomat().findNumAllergene();
-        System.out.println(getConsole().getAutomat().listAllergene(2));
 
         if(before == after)
         {

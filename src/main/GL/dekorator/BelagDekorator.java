@@ -1,9 +1,7 @@
 package main.GL.dekorator;
 
-import main.GL.interfaces.Allergen;
-import main.GL.interfaces.Herstellerbar;
-import main.GL.interfaces.Kuchenbar;
-import main.GL.interfaces.Verkaufsobjektbar;
+import main.GL.Hersteller;
+import main.GL.interfaces.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -12,7 +10,7 @@ import java.time.Duration;
 import java.util.Collection;
 import java.util.Date;
 
-public abstract class BelagDekorator implements Verkaufsobjektbar, Kuchenbar, Serializable
+public abstract class BelagDekorator implements Verkaufsobjektbar, Kuchenbar, Kremkuchenbar, Obstkuchenbar, Obsttortebar, Serializable
 {
     protected Kuchenbar tempKuchen;
 
@@ -28,9 +26,13 @@ public abstract class BelagDekorator implements Verkaufsobjektbar, Kuchenbar, Se
     {
         return tempKuchen;
     }
-    public Herstellerbar getHersteller()
+    public Hersteller getHersteller()
     {
         return tempKuchen.getHersteller();
+    }
+    public void setHersteller(Hersteller hersteller)
+    {
+        tempKuchen.setHersteller(hersteller);
     }
     public Collection<Allergen> getAllergene()
     {
@@ -57,6 +59,12 @@ public abstract class BelagDekorator implements Verkaufsobjektbar, Kuchenbar, Se
     }
 
     @Override
+    public void setInspektionsdatum(Date inspektionsdatum)
+    {
+        tempKuchen.setInspektionsdatum(inspektionsdatum);
+    }
+
+    @Override
     public int getFachnummer()
     {
         return tempKuchen.getFachnummer();
@@ -65,6 +73,17 @@ public abstract class BelagDekorator implements Verkaufsobjektbar, Kuchenbar, Se
     @Override
     public void setFachnummer(int fachnummer)
     {
+        tempKuchen.setFachnummer(fachnummer);
+    }
+    @Override
+    public String getKremsorte()
+    {
+        return ((Kremkuchenbar)tempKuchen).getKremsorte();
+    }
 
+    @Override
+    public String getObstsorte()
+    {
+        return ((Obstkuchenbar)tempKuchen).getObstsorte();
     }
 }

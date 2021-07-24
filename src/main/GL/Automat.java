@@ -1,7 +1,6 @@
 package main.GL;
 
-import main.GL.interfaces.Allergen;
-import main.GL.interfaces.Verkaufsobjektbar;
+import main.GL.interfaces.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -117,11 +116,11 @@ public class Automat implements Serializable
 
         //prueft ob es gibt ein Hersteller schon
         // dann increments
-        if(added instanceof Kuchen)
+        if(added instanceof Kuchenbar)
         {
-            if (herstellern.contains(((Kuchen) added).getHersteller()))
+            if (herstellern.contains(((Kuchenbar) added).getHersteller()))
             {
-                ((Kuchen) added).getHersteller().incrementCountKuchen(1);
+                ((Kuchenbar) added).getHersteller().incrementCountKuchen(1);
             }
             else
                 throw new IllegalArgumentException("Um ein Kuchen einzufuegen, brauchen Sie einen Hersteller zuerst.");
@@ -202,9 +201,9 @@ public class Automat implements Serializable
         {
             if(temp.data.getFachnummer() == fachnummer)
             {
-                if(temp.data instanceof Kuchen)
+                if(temp.data instanceof Kuchenbar)
                 {
-                    ((Kuchen) temp.data).getHersteller().decrementCountKuchen(1);
+                    ((Kuchenbar) temp.data).getHersteller().decrementCountKuchen(1);
                 }
                 //System.out.println(listHersteller());
             }
@@ -263,9 +262,9 @@ public class Automat implements Serializable
 
         while(loop != null)
         {
-            if(((Kuchen)loop.data).getHersteller().getName().equals(name))
+            if(((Kuchenbar)loop.data).getHersteller().getName().equals(name))
             {
-                removeKuchen(((Kuchen) loop.data).getFachnummer());
+                removeKuchen(((Kuchenbar) loop.data).getFachnummer());
             }
 
             loop = loop.next;
@@ -306,25 +305,25 @@ public class Automat implements Serializable
                     }
                     break;
                 case 2:
-                    if(loop.data instanceof Kuchen)
+                    if(loop.data instanceof Kuchenbar)
                     {
                         print += "*** " + loop.data.toString() + " ***\n";
                     }
                     break;
                 case 3:
-                    if(loop.data instanceof Kremkuchen)
+                    if(loop.data instanceof Kremkuchenbar)
                     {
                         print += "*** " + loop.data.toString() + " ***\n";
                     }
                     break;
                 case 4:
-                    if(loop.data instanceof Obstkuchen)
+                    if(loop.data instanceof Obstkuchenbar)
                     {
                         print += "*** " + loop.data.toString() + " ***\n";
                     }
                     break;
                 case 5:
-                    if(loop.data instanceof Obsttorte)
+                    if(loop.data instanceof Obsttortebar)
                     {
                         print += "*** " + loop.data.toString() + " ***\n";
                     }
@@ -381,7 +380,7 @@ public class Automat implements Serializable
 
         while(temp != null && temp.data instanceof Kuchen)
         {
-            Object[] currAllergen = ((Kuchen)temp.data).getAllergene().toArray();
+            Object[] currAllergen = ((Kuchenbar)temp.data).getAllergene().toArray();
 
             for(int i = 0; i < currAllergen.length; i++)
             {
@@ -416,7 +415,7 @@ public class Automat implements Serializable
 
         while(temp != null && temp.data instanceof Kuchen)
         {
-            Object[] currAllergen = ((Kuchen)temp.data).getAllergene().toArray();
+            Object[] currAllergen = ((Kuchenbar)temp.data).getAllergene().toArray();
             for(int i = 0; i < currAllergen.length; i++)
             {
                 vorhandAllergene.add(currAllergen[i].toString());
@@ -443,9 +442,9 @@ public class Automat implements Serializable
 
         while(loop != null)
         {
-            if(((Kuchen)loop.data).getFachnummer() == fachnummer)
+            if(((Kuchenbar)loop.data).getFachnummer() == fachnummer)
             {
-                ((Kuchen) loop.data).setInspektionsdatum(date);
+                ((Kuchenbar) loop.data).setInspektionsdatum(date);
                 inspected = loop.data.toString();
             }
             loop = loop.next;
@@ -503,11 +502,11 @@ public class Automat implements Serializable
 
             while(loop != null)
             {
-                if(((Kuchen)curr.data).getHersteller().compareTo(((Kuchen)loop.data).getHersteller()) > 0)
+                if(((Kuchenbar)curr.data).getHersteller().compareTo(((Kuchenbar)loop.data).getHersteller()) > 0)
                 {
-                    temp = ((Kuchen)curr.data).getHersteller();
-                    ((Kuchen)curr.data).setHersteller(((Kuchen)loop.data).getHersteller());
-                    ((Kuchen)loop.data).setHersteller(temp);
+                    temp = ((Kuchenbar)curr.data).getHersteller();
+                    ((Kuchenbar)curr.data).setHersteller(((Kuchenbar)loop.data).getHersteller());
+                    ((Kuchenbar)loop.data).setHersteller(temp);
                 }
                 loop = loop.next;
             }
@@ -534,11 +533,11 @@ public class Automat implements Serializable
 
             while(loop != null)
             {
-                if(((Kuchen)curr.data).getHaltbarkeit().compareTo(((Kuchen)loop.data).getHaltbarkeit()) > 0)
+                if(((Kuchenbar)curr.data).getHaltbarkeit().compareTo(((Kuchenbar)loop.data).getHaltbarkeit()) > 0)
                 {
-                    temp = ((Kuchen)curr.data).getHaltbarkeit();
-                    ((Kuchen)curr.data).setHaltbarkeit(((Kuchen)loop.data).getHaltbarkeit());
-                    ((Kuchen)loop.data).setHaltbarkeit(temp);
+                    temp = ((Kuchenbar)curr.data).getHaltbarkeit();
+                    ((Kuchenbar)curr.data).setHaltbarkeit(((Kuchen)loop.data).getHaltbarkeit());
+                    ((Kuchenbar)loop.data).setHaltbarkeit(temp);
                 }
                 loop = loop.next;
             }

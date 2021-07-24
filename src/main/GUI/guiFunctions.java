@@ -1,14 +1,14 @@
 package main.GUI;
 
 import main.GL.*;
-import main.GL.interfaces.Allergen;
+import main.GL.dekorator.Belag;
+import main.GL.interfaces.*;
 import main.IO.jbp;
 import main.IO.jos;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class guiFunctions
 {
@@ -26,7 +26,7 @@ public class guiFunctions
 
         String[] line = scnr.nextLine().split(" ");
         String[] allergeneStrings;
-        ArrayList<Allergen> allergene = new ArrayList<Allergen>();
+        HashSet<Allergen> allergene = new HashSet<Allergen>();
 
         if(line == null)
         {
@@ -39,27 +39,13 @@ public class guiFunctions
         }
         else if(line.length >= 6)
         {
-
-
-            if(!line[5].equals(","))
-            {
-                allergeneStrings = line[5].split(",");
-
-                for (int i = 0; i < allergeneStrings.length; i++)
-                {
-                    for(Allergen loop : Allergen.values())
-                    {
-                        if((loop.toString()).equals(allergeneStrings[i]))
-                        {
-                            allergene.add(loop);
-                        }
-                    }
-                }
-            }
+            int kLength = 5;
 
             if(line[0].equals("Kuchen"))
             {
                 Kuchen k = new Kuchen();
+                Kuchenbar kFinal;
+                Kuchenbar kTemp;
 
                 for(Object h : automat.getHerstellern())
                 {
@@ -69,17 +55,35 @@ public class guiFunctions
                     }
                 }
 
-                k.setPreis(new BigDecimal(Double.parseDouble(line[2])));
+                k.setPreis(new BigDecimal(Double.parseDouble(commaPreisInput(line[2]))));
                 k.setNaehrwert(Integer.parseInt(line[3]));
                 k.setHaltbarkeit(Duration.ofDays(Long.parseLong(line[4])));
-                k.setAllergene(allergene);
-                k.setFachnummer(ThreadLocalRandom.current().nextInt(0, 10000));
+                k.setAllergene(determineAllergene(line[5]));
+
+                kTemp = k;
+
+                if (line.length >= 7) {
+
+                    for (int i = 1; i < line.length / 5; i++) {
+                        BigDecimal bPreis = new BigDecimal(Double.parseDouble(commaPreisInput(line[i * kLength + 1])));
+                        int bNaehrwert = Integer.parseInt(line[i * kLength + 2]);
+                        Duration bHaltbarkeit = Duration.ofDays(Long.parseLong(line[i * kLength + 3]));
+                        HashSet<Allergen> bAllergene = determineAllergene(line[i * kLength + 4]);
+                        String bName = line[i * kLength + 5];
+
+
+                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kTemp);
+                    }
+                }
+                kFinal = kTemp;
 
                 automat.add(k);
             }
             else if(line[0].equals("Kremkuchen"))
             {
                 Kremkuchen kk = new Kremkuchen();
+                Kremkuchenbar kFinal;
+                Kremkuchenbar kTemp;
 
                 for(Object h : automat.getHerstellern())
                 {
@@ -88,18 +92,37 @@ public class guiFunctions
                         kk.setHersteller((Hersteller)h);
                     }
                 }
-                kk.setPreis(new BigDecimal(Double.parseDouble(line[2])));
+                kk.setPreis(new BigDecimal(Double.parseDouble(commaPreisInput(line[2]))));
                 kk.setNaehrwert(Integer.parseInt(line[3]));
                 kk.setHaltbarkeit(Duration.ofDays(Long.parseLong(line[4])));
-                kk.setAllergene(allergene);
+                kk.setAllergene(determineAllergene(line[5]));
                 kk.setKremsorte(line[6]);
-                kk.setFachnummer(ThreadLocalRandom.current().nextInt(0, 10000));
+
+                kTemp = kk;
+
+                if (line.length >= 8) {
+
+                    for (int i = 1; i < line.length / 5; i++) {
+                        BigDecimal bPreis = new BigDecimal(Double.parseDouble(commaPreisInput(line[i * kLength + 2])));
+                        int bNaehrwert = Integer.parseInt(line[i * kLength + 3]);
+                        Duration bHaltbarkeit = Duration.ofDays(Long.parseLong(line[i * kLength + 4]));
+                        HashSet<Allergen> bAllergene = determineAllergene(line[i * kLength + 5]);
+                        String bName = line[i * kLength + 6];
+
+
+                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kTemp);
+                    }
+                }
+                kFinal = kTemp;
 
                 automat.add(kk);
             }
             else if(line[0].equals("Obstkuchen"))
             {
                 Obstkuchen ok = new Obstkuchen();
+                Obstkuchenbar kFinal;
+                Obstkuchenbar kTemp;
+
                 for(Object h : automat.getHerstellern())
                 {
                     if(line[1].equals(((Hersteller)h).getName()))
@@ -107,18 +130,36 @@ public class guiFunctions
                         ok.setHersteller((Hersteller)h);
                     }
                 }
-                ok.setPreis(new BigDecimal(Double.parseDouble(line[2])));
+                ok.setPreis(new BigDecimal(Double.parseDouble(commaPreisInput(line[2]))));
                 ok.setNaehrwert(Integer.parseInt(line[3]));
                 ok.setHaltbarkeit(Duration.ofDays(Long.parseLong(line[4])));
-                ok.setAllergene(allergene);
+                ok.setAllergene(determineAllergene(line[5]));
                 ok.setObstsorte(line[6]);
-                ok.setFachnummer(ThreadLocalRandom.current().nextInt(0, 10000));
+
+                kTemp = ok;
+
+                if (line.length >= 8) {
+
+                    for (int i = 1; i < line.length / 5; i++) {
+                        BigDecimal bPreis = new BigDecimal(Double.parseDouble(commaPreisInput(line[i * kLength + 2])));
+                        int bNaehrwert = Integer.parseInt(line[i * kLength + 3]);
+                        Duration bHaltbarkeit = Duration.ofDays(Long.parseLong(line[i * kLength + 4]));
+                        HashSet<Allergen> bAllergene = determineAllergene(line[i * kLength + 5]);
+                        String bName = line[i * kLength + 6];
+
+
+                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kTemp);
+                    }
+                }
+                kFinal = kTemp;
 
                 automat.add(ok);
             }
             else if(line[0].equals("Obsttorte"))
             {
                 Obsttorte ot = new Obsttorte();
+                Obsttortebar kFinal;
+                Obsttortebar kTemp;
 
                 for(Object h : automat.getHerstellern())
                 {
@@ -127,13 +168,29 @@ public class guiFunctions
                         ot.setHersteller((Hersteller)h);
                     }
                 }
-                ot.setPreis(new BigDecimal(Double.parseDouble(line[2])));
+                ot.setPreis(new BigDecimal(Double.parseDouble(commaPreisInput(line[2]))));
                 ot.setNaehrwert(Integer.parseInt(line[3]));
                 ot.setHaltbarkeit(Duration.ofDays(Long.parseLong(line[4])));
-                ot.setAllergene(allergene);
+                ot.setAllergene(determineAllergene(line[5]));
                 ot.setObstsorte(line[6]);
                 ot.setKremsorte(line[7]);
-                ot.setFachnummer(ThreadLocalRandom.current().nextInt(0, 10000));
+
+                kTemp = ot;
+
+                if (line.length >= 9) {
+
+                    for (int i = 1; i < line.length / 5; i++) {
+                        BigDecimal bPreis = new BigDecimal(Double.parseDouble(commaPreisInput(line[i * kLength + 3])));
+                        int bNaehrwert = Integer.parseInt(line[i * kLength + 4]);
+                        Duration bHaltbarkeit = Duration.ofDays(Long.parseLong(line[i * kLength + 5]));
+                        HashSet<Allergen> bAllergene = determineAllergene(line[i * kLength + 6]);
+                        String bName = line[i * kLength + 7];
+
+
+                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kTemp);
+                    }
+                }
+                kFinal = kTemp;
 
                 automat.add(ot);
             }
@@ -304,8 +361,52 @@ public class guiFunctions
                 throw new InputMismatchException("Falsche Eingabe.");
         }
 
+    public String commaPreisInput(String input) {
+        String vor = "";
+        String nach = "";
+        int count = 0;
 
-    public int capacity(String input)
+        if (input.contains(",")) {
+            for (int i = 0; i < input.length(); i++) {
+                if (input.charAt(i) == (',')) {
+                    count++;
+                }
+            }
+
+            String[] preis = input.split(",");
+
+            if (count == 1) {
+                vor = preis[0];
+                nach = preis[1];
+                return vor + "." + nach;
+            } else
+                throw new InputMismatchException("Falsche Preis Eingabe.");
+
+        } else
+            return input;
+    }
+
+    public HashSet<Allergen> determineAllergene(String input)
+    {
+        String[] allergeneStrings;
+        HashSet<Allergen> allergene = new HashSet<Allergen>();
+
+        if (!input.equals(",")) {
+            allergeneStrings = input.split(",");
+
+            for (int i = 0; i < allergeneStrings.length; i++) {
+                for (Allergen loop : Allergen.values()) {
+                    if ((loop.toString()).equals(allergeneStrings[i])) {
+                        allergene.add(loop);
+                    }
+                }
+            }
+        }
+
+        return allergene;
+    }
+
+        public int capacity(String input)
     {
         scnr = new Scanner(input);
         int capacity = 0;

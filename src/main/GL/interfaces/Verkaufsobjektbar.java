@@ -9,4 +9,6 @@ public interface Verkaufsobjektbar {
     int getFachnummer();
     void setFachnummer(int fachnummer);
     String toString();
+    String belagToString();
+    void setInspektionsdatum(Date inspektionsdatum);
 }

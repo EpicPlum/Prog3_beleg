@@ -10,9 +10,9 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 public class Kuchenboden extends Verkaufsobjekt implements Verkaufsobjektbar, Kuchenbar, Serializable
 {
@@ -28,7 +28,7 @@ public class Kuchenboden extends Verkaufsobjekt implements Verkaufsobjektbar, Ku
         super();
         hersteller = new Hersteller("");
         naehrwert = 0;
-        allergene = new ArrayList<Allergen>();
+        allergene = new HashSet<Allergen>();
         haltbarkeit = Duration.ofDays(0);
     }
 
@@ -101,6 +101,11 @@ public class Kuchenboden extends Verkaufsobjekt implements Verkaufsobjektbar, Ku
     public String toString()
     {
         return super.toString() + " - Hersteller: " + hersteller.getName() + " - Allergene: " + allergene + " - Naehrwert: " + naehrwert + " - Haltbarkeit: " + haltbarkeit.toDays() + " Tage";
+    }
+
+    public String belagToString()
+    {
+        return super.toString() + " Kuchen --- " + "Hersteller: " + hersteller.getName();
     }
 
 }
