@@ -13,7 +13,6 @@ public class jos
 
     public static boolean saveAutomat(String fileName, Automat automat) throws NullPointerException
     {
-        //File out = new File(System.getProperty("user.home"), fileName);
         if(fileName == null || automat == null)
         {
             throw new NullPointerException("Filename/Automat ist null.");

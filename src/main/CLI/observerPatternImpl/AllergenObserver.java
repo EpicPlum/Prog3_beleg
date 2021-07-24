@@ -20,7 +20,6 @@ public class AllergenObserver extends Observer_Impl
 
         if(before == after)
         {
-            //System.out.println("Vorhandene Allergene waren nicht aendert seit letzes mal.");
             return false;
         }
         else

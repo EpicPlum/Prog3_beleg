@@ -41,5 +41,8 @@ public class Obsttorte extends Obstkuchen implements main.GL.interfaces.Obsttort
         return super.toString() + " - Kremsorte: " + getKremsorte();
     }
 
-
+    public String belagToString()
+    {
+        return " - Kremsorte: " + getKremsorte() + " - Obstsorte: " + getObstsorte();
+    }
 }

@@ -55,4 +55,9 @@ public class Obstkuchen extends Kuchen implements Obstkuchenbar, Serializable
     {
         return super.toString() + " - Obstsorte: " + getObstsorte();
     }
+
+    public String belagToString()
+    {
+        return " - Obstsorte: " + getObstsorte();
+    }
 }

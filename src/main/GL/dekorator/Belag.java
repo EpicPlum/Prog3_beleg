@@ -1,8 +1,7 @@
 package main.GL.dekorator;
 
 import main.GL.*;
-import main.GL.interfaces.Allergen;
-import main.GL.interfaces.Kuchenbar;
+import main.GL.interfaces.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,14 +16,26 @@ public class Belag extends BelagDekorator implements Serializable
     private String name;
     private BigDecimal preis = new BigDecimal(0);
     private int naehrwert = 0;
-    private Collection<Allergen> allergen = new HashSet<Allergen>();
+    private Collection<Allergen> allergen = new HashSet<>();
     private Duration haltbarkeit;
+    private Kuchenbar boden;
     @Serial
-    private static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 10L;
 
-    public Belag(String name, BigDecimal preis, int naehrwert, Duration haltbarkeit, Collection<Allergen> allergen, Kuchenbar newKuchen)
+    public Belag()
+    {
+        name = "";
+        preis = new BigDecimal(0);
+        naehrwert = 0;
+        allergen = new HashSet<>();
+        haltbarkeit = Duration.ofDays(0);
+    }
+
+    public Belag(String name, BigDecimal preis, int naehrwert, Duration haltbarkeit, Collection<Allergen> allergen, Kuchenbar boden, Kuchenbar newKuchen)
     {
         super(newKuchen);
+
+        this.boden = boden;
 
         if(newKuchen.getName() != null)
             this.name =  name + ", " + tempKuchen.getName();
@@ -103,29 +114,14 @@ public class Belag extends BelagDekorator implements Serializable
     @Override
     public String toString()
     {
-        return "Namen: " + name + "Preis: " + preis + " Naehrwert: " + naehrwert + " Allergene: " + allergen + " Haltbarkeit: " + haltbarkeit.toDays() + " Tage - " + tempKuchen.belagToString();
+        return "Belaege: " + name + "Preis: " + preis + " Naehrwert: " + naehrwert + " Allergene: " + allergen + " Haltbarkeit: " +
+                haltbarkeit.toDays() + " Tage - " + "Inspektionsdatum: " + getInspektionsdatum()
+                + " - Fachnummer: " + getFachnummer() + " - " + "Hersteller: " + getHersteller().getName() + boden.belagToString();
     }
 
     @Override
     public String belagToString()
     {
-        if(tempKuchen instanceof Kuchen)
-        {
-            return "Inspektionsdatum: " + getInspektionsdatum() + " - Fachnummer: " + getFachnummer() + " - Kuchentyp: Kuchen - " + "Hersteller: " + getHersteller().getName();
-        }
-        else if(tempKuchen instanceof Kremkuchen)
-        {
-            return "Inspektionsdatum: " + getInspektionsdatum() + " - Fachnummer: " + getFachnummer() + " - Kuchentyp: Kremkuchen - " + "Hersteller: " + getHersteller().getName();
-        }
-        else if(tempKuchen instanceof Obstkuchen)
-        {
-            return "Inspektionsdatum: " + getInspektionsdatum() + " - Fachnummer: " + getFachnummer() + " - Kuchentyp: Obstkuchen - " + "Hersteller: " + getHersteller().getName();
-        }
-        else if(tempKuchen instanceof Obsttorte)
-        {
-            return "Inspektionsdatum: " + getInspektionsdatum() + " - Fachnummer: " + getFachnummer() + " - Kuchentyp: Obsttorte - " + "Hersteller: " + getHersteller().getName();
-        }
-        else
-            return "";
+        return "";
     }
 }

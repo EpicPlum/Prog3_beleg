@@ -92,9 +92,4 @@ public class Verkaufsobjekt implements Verkaufsobjektbar, Serializable
         return "Preis: " + getPreis() + " Euro" + " - Inspektionsdatum: " + getInspektionsdatum() + " - Fachnummer: " + getFachnummer();
     }
 
-    @Override
-    public String belagToString()
-    {
-        return toString();
-    }
 }

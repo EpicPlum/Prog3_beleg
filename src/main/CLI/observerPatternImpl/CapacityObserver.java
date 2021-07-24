@@ -28,7 +28,6 @@ public class CapacityObserver extends Observer_Impl
         }
         else
         {
-            //System.out.println("Automat ist " + (getConsole().getAutomat().size())*10 + "% voll.");
             return false;
         }
     }

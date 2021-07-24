@@ -53,7 +53,6 @@ public class ViewModel
         right = new TextArea();
         leftText = new Text();
         rightText = new Text();
-        //updateProperties();
     }
 
     public void updateProperties()
@@ -187,7 +186,7 @@ public class ViewModel
     {
         if(persistInput.getText() != null)
         {
-            functions.persistanceMode(persistInput.getText());
+            functions.persistenceMode(persistInput.getText());
         }
         else
             throw new NullPointerException("Eingabe ist null.");

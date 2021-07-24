@@ -3,29 +3,22 @@ package main.GL.dekorator;
 import main.GL.Hersteller;
 import main.GL.interfaces.*;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.util.Collection;
 import java.util.Date;
 
-public abstract class BelagDekorator implements Verkaufsobjektbar, Kuchenbar, Kremkuchenbar, Obstkuchenbar, Obsttortebar, Serializable
+public abstract class BelagDekorator implements Verkaufsobjektbar, Kuchenbar, Kremkuchenbar, Obstkuchenbar, Obsttortebar
 {
     protected Kuchenbar tempKuchen;
 
-    @Serial
-    private static final long serialVersionUID = 10L;
+    public BelagDekorator()
+    {
+        tempKuchen = null;
+    }
 
     public BelagDekorator(Kuchenbar newKuchen)
     {
         tempKuchen = newKuchen;
     }
 
-    public Kuchenbar getTempKuchen()
-    {
-        return tempKuchen;
-    }
     public Hersteller getHersteller()
     {
         return tempKuchen.getHersteller();
@@ -33,23 +26,6 @@ public abstract class BelagDekorator implements Verkaufsobjektbar, Kuchenbar, Kr
     public void setHersteller(Hersteller hersteller)
     {
         tempKuchen.setHersteller(hersteller);
-    }
-    public Collection<Allergen> getAllergene()
-    {
-        return tempKuchen.getAllergene();
-    }
-    public int getNaehrwert()
-    {
-        return tempKuchen.getNaehrwert();
-    }
-    public Duration getHaltbarkeit()
-    {
-        return tempKuchen.getHaltbarkeit();
-    }
-
-    public BigDecimal getPreis()
-    {
-        return tempKuchen.getPreis();
     }
 
     @Override

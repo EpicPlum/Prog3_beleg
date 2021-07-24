@@ -20,8 +20,6 @@ public class addThread extends automatThread
         automat.addHersteller(hTest);
     }
 
-
-
     @Override
     public void run()
     {

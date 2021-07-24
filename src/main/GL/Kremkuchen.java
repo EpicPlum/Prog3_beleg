@@ -56,4 +56,9 @@ public class Kremkuchen extends Kuchen implements Kremkuchenbar, Serializable
     {
         return super.toString() + " - Kremsorte: " + getKremsorte();
     }
+
+    public String belagToString()
+    {
+        return " - Kremsorte: " + getKremsorte();
+    }
 }

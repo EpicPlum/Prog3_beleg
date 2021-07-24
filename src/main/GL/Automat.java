@@ -148,10 +148,8 @@ public class Automat implements Serializable
 
         }
 
-        //added.setFachnummer(letzteFachnummer);
         fachNummern.add(added.getFachnummer());
         letzteFachnummer++;
-        //setInspektionsdatum(added, new Date(05112021));
         size++;
 
     }
@@ -205,7 +203,6 @@ public class Automat implements Serializable
                 {
                     ((Kuchenbar) temp.data).getHersteller().decrementCountKuchen(1);
                 }
-                //System.out.println(listHersteller());
             }
 
             head = temp.next;
@@ -213,12 +210,6 @@ public class Automat implements Serializable
         }
 
         temp = head;
-
-        if(temp != null && temp.data.getFachnummer() == fachnummer)
-        {
-            head = temp.next;
-        }
-
 
         while(temp != null && temp.data.getFachnummer() != fachnummer)
         {
@@ -378,7 +369,7 @@ public class Automat implements Serializable
         HashSet<String> vorhandAllergene = new HashSet<String>();
         EnumSet<Allergen> nichtVorhandAllergene = EnumSet.allOf(Allergen.class);
 
-        while(temp != null && temp.data instanceof Kuchen)
+        while(temp != null && temp.data instanceof Kuchenbar)
         {
             Object[] currAllergen = ((Kuchenbar)temp.data).getAllergene().toArray();
 
@@ -413,7 +404,7 @@ public class Automat implements Serializable
         EnumSet<Allergen> nichtVorhandAllergene = EnumSet.allOf(Allergen.class);
 
 
-        while(temp != null && temp.data instanceof Kuchen)
+        while(temp != null && temp.data instanceof Kuchenbar)
         {
             Object[] currAllergen = ((Kuchenbar)temp.data).getAllergene().toArray();
             for(int i = 0; i < currAllergen.length; i++)

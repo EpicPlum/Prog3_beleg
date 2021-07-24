@@ -2,6 +2,7 @@ package main.GL;
 
 import main.GL.dekorator.Kuchenboden;
 import main.GL.interfaces.Allergen;
+import main.GL.interfaces.Kuchenbar;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -13,7 +14,7 @@ import java.util.Date;
 /*
 Kuchen im Automat, erben von Verkaufsobjekt
  */
-public class Kuchen extends Kuchenboden implements Serializable
+public class Kuchen extends Kuchenboden implements Kuchenbar, Serializable
 {
     /*
     Instanzvariablen
@@ -33,5 +34,15 @@ public class Kuchen extends Kuchenboden implements Serializable
     public Kuchen(BigDecimal preis, Date inspektionsdatum, Hersteller hersteller, int naehrwert, Collection<Allergen> allergene, Duration haltbarkeit) throws NullPointerException
     {
         super(preis, inspektionsdatum, hersteller, naehrwert, allergene, haltbarkeit);
+    }
+
+    public String toString()
+    {
+        return super.toString();
+    }
+
+    public String belagToString()
+    {
+        return "";
     }
 }

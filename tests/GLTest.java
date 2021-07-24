@@ -1,5 +1,10 @@
 import main.GL.*;
+import main.GL.dekorator.Belag;
+import main.GL.dekorator.Kuchenboden;
 import main.GL.interfaces.Allergen;
+import main.GL.interfaces.Kremkuchenbar;
+import main.GL.interfaces.Obstkuchenbar;
+import main.GL.interfaces.Obsttortebar;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -15,27 +20,26 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
-public class AutomatTest
+public class GLTest
 {
 
-
+    private Verkaufsobjekt vkNull;
     private Verkaufsobjekt vkDefault;
     private Verkaufsobjekt vkNormal;
-    private Verkaufsobjekt vkNull;
-    private Verkaufsobjekt vkFachnummer;
 
+    private Kuchen kuchenNull;
     private Kuchen kuchenDefault;
     private Kuchen kuchenNormal;
-    private Kuchen kuchenNull;
 
+    private Kremkuchen kremkuchenNull;
     private Kremkuchen kremkuchenDefault;
     private Kremkuchen kremkuchenNormal;
-    private Kremkuchen kremkuchenNull;
 
+    private Obstkuchen obstkuchenNull;
     private Obstkuchen obstkuchenDefault;
     private Obstkuchen obstkuchenNormal;
-    private Obstkuchen obstkuchenNull;
 
+    private Obsttorte obsttorteNull;
     private Obsttorte obsttorteDefault;
     private Obsttorte obsttorteNormal;
 
@@ -43,8 +47,16 @@ public class AutomatTest
     private Hersteller jacobs;
     private Hersteller herstello;
 
+    private Kuchenboden kuchenboden;
+    private Belag Eis;
+    private Belag Beeren;
+    private Belag belagDefault;
+    private Kremkuchenbar BeerenKK;
+    private Obstkuchenbar BeerenOK;
+    private Obsttortebar BeerenOT;
+
     private HashSet<Allergen> ge;
-    private HashSet<Allergen> hs;
+    private HashSet<Allergen> s;
 
     private Node nodeTest;
 
@@ -81,9 +93,8 @@ public class AutomatTest
         jacobs = new Hersteller("Jacobs");
         herstello = new Hersteller("Herstello");
 
-        hs = new HashSet<Allergen>();
-        hs.add(Allergen.Haselnuss);
-        hs.add(Allergen.Sesamsamen);
+        s = new HashSet<Allergen>();
+        s.add(Allergen.Sesamsamen);
         ge = new HashSet<Allergen>();
         ge.add(Allergen.Gluten);
         ge.add(Allergen.Erdnuss);
@@ -93,11 +104,20 @@ public class AutomatTest
         kuchenDefault = new Kuchen();
         kuchenNormal = new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), herstello, 250, new HashSet<Allergen>(), Duration.ofDays(3));
         kremkuchenDefault = new Kremkuchen();
-        kremkuchenNormal = new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), jacobs, 250, hs, Duration.ofDays(5), "Sahne");
+        kremkuchenNormal = new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), jacobs, 250, s, Duration.ofDays(5), "Sahne");
         obstkuchenDefault = new Obstkuchen();
-        obstkuchenNormal = new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5), "Erdbeer");
+        obstkuchenNormal = new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, s, Duration.ofDays(5), "Erdbeer");
         obsttorteDefault = new Obsttorte();
-        obsttorteNormal = new Obsttorte(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5), "Erdbeer", "Sahne");
+        obsttorteNormal = new Obsttorte(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, s, Duration.ofDays(5), "Erdbeer", "Sahne");
+
+        kuchenboden = new Kuchenboden(BigDecimal.ONE, new Date(2021, 04, 19), johnsons, 300, ge, Duration.ofDays(10));
+        Eis = new Belag("Eis", new BigDecimal(3), 50, Duration.ofDays(5), s, kuchenboden, kuchenboden);
+        Beeren = new Belag("Beeren", new BigDecimal(3), 50, Duration.ofDays(5), s, kuchenboden, Eis);
+        BeerenKK = new Belag("BeerenKK", new BigDecimal(3), 50, Duration.ofDays(5), s, kremkuchenNormal, kremkuchenNormal);
+        BeerenOK = new Belag("BeerenOK", new BigDecimal(3), 50, Duration.ofDays(5), s, obstkuchenNormal, obstkuchenNormal);
+        BeerenOT = new Belag("BeerenOT", new BigDecimal(3), 50, Duration.ofDays(5), s, obsttorteNormal, obsttorteNormal);
+        //belagLeer = new Belag("Eis", new BigDecimal(3), 50, Duration.ofDays(5), s, belagLeer);
+        belagDefault = new Belag();
 
         nodeTest = new Node();
 
@@ -112,21 +132,11 @@ public class AutomatTest
         auto3 = new Automat();
         auto3.addHersteller(johnsons);
 
-        auto2.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5)));
+        auto2.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, s, Duration.ofDays(5)));
         autoMock.addHersteller(johnsons);
         autoSpy.addHersteller(johnsons);
 
-/*
-        auto.add(vkNormal);
 
-        auto.add(kuchenDefault);
-
-        auto.add(kremkuchenDefault);
-
-        auto.add(obstkuchenDefault);
-        //auto.add(obstkuchenNormal);
-
-*/
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -150,9 +160,9 @@ public class AutomatTest
     @Test
     public void addHerstellerMock()
     {
-        when(herstellerMock.getName()).thenReturn("Johnsons");
+        when(herstellerMock.getName()).thenReturn("NewHersteller");
         auto.addHersteller(herstellerMock);
-        assertEquals(3, auto.getHerstellern().size());
+        assertEquals(4, auto.getHerstellern().size());
     }
 
     @Test
@@ -214,6 +224,12 @@ public class AutomatTest
     public void herstellerCompareToTest()
     {
         assertEquals(0, herstello.compareTo(herstello));
+    }
+
+    @Test
+    public void herstellerSymbolTest()
+    {
+        assertThrows(IllegalArgumentException.class, () -> new Hersteller("###"));
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -328,7 +344,7 @@ public class AutomatTest
     @Test
     public void kremkuchenNullTest()
     {
-        assertThrows(NullPointerException.class, () -> kremkuchenNull = new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), new Hersteller("Jacksons"), 250, hs, Duration.ofDays(5), null));
+        assertThrows(NullPointerException.class, () -> kremkuchenNull = new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), new Hersteller("Jacksons"), 250, s, Duration.ofDays(5), null));
     }
 
     @Test
@@ -342,7 +358,7 @@ public class AutomatTest
     public void kremkuchenToStringTest()
     {
         assertEquals("Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 " +
-                "- Hersteller: Jacobs - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5" +
+                "- Hersteller: Jacobs - Allergene: [Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5" +
                 " Tage - Kremsorte: Sahne", kremkuchenNormal.toString());
     }
 
@@ -366,7 +382,7 @@ public class AutomatTest
     @Test
     public void obstkuchenNullTest()
     {
-        assertThrows(NullPointerException.class, () -> obstkuchenNull = new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), new Hersteller("Johnsons"), 250, hs, Duration.ofDays(5), null));
+        assertThrows(NullPointerException.class, () -> obstkuchenNull = new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), new Hersteller("Johnsons"), 250, s, Duration.ofDays(5), null));
     }
 
     @Test
@@ -380,7 +396,7 @@ public class AutomatTest
     public void obstkuchenToStringTest()
     {
         assertEquals("Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - " +
-                "Fachnummer: 0 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - " +
+                "Fachnummer: 0 - Hersteller: Johnsons - Allergene: [Sesamsamen] - " +
                 "Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer", obstkuchenNormal.toString());
     }
 
@@ -417,7 +433,7 @@ public class AutomatTest
     @Test
     public void obsttorteToStringTest()
     {
-        assertEquals("Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250" +
+        assertEquals("Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Johnsons - Allergene: [Sesamsamen] - Naehrwert: 250" +
                 " - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne", obsttorteNormal.toString());
     }
 
@@ -505,12 +521,12 @@ public class AutomatTest
     @Test
     public void addFull()
     {
-        auto3.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5)));
-        auto3.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5)));
-        auto3.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5)));
-        auto3.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5)));
-        auto3.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5)));
-        assertThrows(IndexOutOfBoundsException.class, () -> auto3.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5))));
+        auto3.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, s, Duration.ofDays(5)));
+        auto3.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, s, Duration.ofDays(5)));
+        auto3.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, s, Duration.ofDays(5)));
+        auto3.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, s, Duration.ofDays(5)));
+        auto3.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, s, Duration.ofDays(5)));
+        assertThrows(IndexOutOfBoundsException.class, () -> auto3.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, s, Duration.ofDays(5))));
     }
 
     @Test
@@ -566,8 +582,22 @@ public class AutomatTest
     public void removeKuchenNormal()
     {
         auto.add(kuchenNormal);
-        auto.add(obstkuchenNormal);
+        auto.removeKuchen(0);
+        assertEquals(0,auto.size());
 
+    }
+
+    @Test
+    public void removeKuchenVoll()
+    {
+        auto.add(kuchenNormal);
+        auto.add(obstkuchenNormal);
+        auto.add(kuchenNormal);
+        auto.add(obstkuchenNormal);
+        auto.removeKuchen(1);
+        auto.removeKuchen(2);
+
+        assertEquals(2, auto.size());
     }
 
     @Test
@@ -608,8 +638,8 @@ public class AutomatTest
     public void removeHerstellerNull()
     {
         auto2.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), johnsons, 250, new HashSet<Allergen>(), Duration.ofDays(3)));
-        auto2.add(new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5), "Sahne"));
-        auto2.add(new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5), "Erdbeer"));
+        auto2.add(new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, s, Duration.ofDays(5), "Sahne"));
+        auto2.add(new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, s, Duration.ofDays(5), "Erdbeer"));
         assertThrows(NullPointerException.class, () -> auto2.removeHersteller(null));
     }
 
@@ -617,8 +647,8 @@ public class AutomatTest
     public void removeHerstellerNormal()
     {
         auto2.add(new Kuchen(BigDecimal.ONE, new Date(2021, 04, 19), johnsons, 250, new HashSet<Allergen>(), Duration.ofDays(3)));
-        auto2.add(new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5), "Sahne"));
-        auto2.add(new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, hs, Duration.ofDays(5), "Erdbeer"));
+        auto2.add(new Kremkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, s, Duration.ofDays(5), "Sahne"));
+        auto2.add(new Obstkuchen(BigDecimal.ONE, new Date(2021, 04, 22), johnsons, 250, s, Duration.ofDays(5), "Erdbeer"));
         auto2.removeHersteller("Johnsons");
         assertEquals(auto2.getHerstellern().size(), 0);
     }
@@ -649,7 +679,7 @@ public class AutomatTest
     @Test
     public void lv1Test()
     {
-        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - " +
+        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Johnsons - Allergene: [Sesamsamen] - Naehrwert: 250 - " +
                 "Haltbarkeit: 5 Tage ***\n", auto2.listVerkaufsobjekte(1));
     }
 
@@ -657,14 +687,14 @@ public class AutomatTest
     public void lv2Test()
     {
         assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Johnsons " +
-                "- Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage ***\n", auto2.listVerkaufsobjekte(2));
+                "- Allergene: [Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage ***\n", auto2.listVerkaufsobjekte(2));
     }
 
     @Test
     public void lv3Test()
     {
         auto.add(kremkuchenNormal);
-        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Jacobs - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage" +
+        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Jacobs - Allergene: [Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage" +
                 " - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(3));
     }
 
@@ -672,7 +702,7 @@ public class AutomatTest
     public void lv4Test()
     {
         auto2.add(obstkuchenNormal);
-        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - " +
+        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Johnsons - Allergene: [Sesamsamen] - Naehrwert: 250 - " +
                 "Haltbarkeit: 5 Tage - Obstsorte: Erdbeer ***\n", auto2.listVerkaufsobjekte(4));
     }
 
@@ -680,7 +710,7 @@ public class AutomatTest
     public void lv5Test()
     {
         auto2.add(obsttorteNormal);
-        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer " +
+        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Johnsons - Allergene: [Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer " +
                 "- Kremsorte: Sahne ***\n", auto2.listVerkaufsobjekte(5));
     }
 
@@ -712,14 +742,14 @@ public class AutomatTest
     public void la1Test()
     {
         auto.add(obsttorteNormal);
-        assertEquals("Vorhandene Allergene im Automat: [Haselnuss, Sesamsamen]", auto.listAllergene(1));
+        assertEquals("Vorhandene Allergene im Automat: [Sesamsamen]", auto.listAllergene(1));
     }
 
     @Test
     public void la2Test()
     {
         auto.add(obsttorteNormal);
-        assertEquals("Nicht vorhandene Allergene im Automat: [Gluten, Erdnuss, Milch]", auto.listAllergene(2));
+        assertEquals("Nicht vorhandene Allergene im Automat: [Gluten, Erdnuss, Haselnuss, Milch]", auto.listAllergene(2));
     }
     /*------------------------------------------------------------------------------------------------------------------
     setInspektionsDatum
@@ -753,10 +783,10 @@ public class AutomatTest
     }
 
     @Test
-    public void fna2Test()
+    public void fna1Test()
     {
         auto.add(kremkuchenNormal);
-        assertEquals(2, auto.findNumAllergene());
+        assertEquals(1, auto.findNumAllergene());
     }
 
     //fachNummerSort
@@ -771,12 +801,13 @@ public class AutomatTest
     public void fnSortNormal()
     {
         auto.add(kuchenNormal);
+        kuchenNormal.setFachnummer(1000);
         auto.add(kremkuchenNormal);
         auto.add(obsttorteNormal);
         auto.fachnummerSort();
-        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Thu May 19 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Herstello - Allergene: [] - Naehrwert: 250 - Haltbarkeit: 3 Tage ***\n" +
-                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Jacobs - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Kremsorte: Sahne ***\n" +
-                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 2 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(2));
+        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Thu May 19 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Herstello - Allergene: [] - Naehrwert: 250 - Haltbarkeit: 3 Tage ***\n" +
+                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 2 - Hersteller: Jacobs - Allergene: [Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Kremsorte: Sahne ***\n" +
+                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1000 - Hersteller: Johnsons - Allergene: [Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(2));
     }
 
     //herstellerSort
@@ -791,15 +822,13 @@ public class AutomatTest
     public void herstellerSortNormal()
     {
         auto.add(kuchenNormal);
+        kuchenNormal.setHersteller(new Hersteller("YYY"));
         auto.add(kremkuchenNormal);
         auto.add(obsttorteNormal);
         auto.herstellerSort();
-        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Thu May 19 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Herstello" +
-                " - Allergene: [] - Naehrwert: 250 - Haltbarkeit: 3 Tage ***\n" +
-                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Jacobs" +
-                " - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Kremsorte: Sahne ***\n" +
-                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 2 - Hersteller: Johnsons " +
-                "- Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(2));
+        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Thu May 19 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Jacobs - Allergene: [] - Naehrwert: 250 - Haltbarkeit: 3 Tage ***\n" +
+                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Johnsons - Allergene: [Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Kremsorte: Sahne ***\n" +
+                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 2 - Hersteller: YYY - Allergene: [Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(2));
     }
 
     //haltbarkeitSort
@@ -814,11 +843,123 @@ public class AutomatTest
     public void hkSortNormal()
     {
         auto.add(kuchenNormal);
+        kuchenNormal.setHaltbarkeit(Duration.ofDays(100));
         auto.add(kremkuchenNormal);
         auto.add(obsttorteNormal);
         auto.haltbarkeitSort();
-        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Thu May 19 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Herstello - Allergene: [] - Naehrwert: 250 - Haltbarkeit: 3 Tage ***\n" +
-                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Jacobs - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Kremsorte: Sahne ***\n" +
-                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 2 - Hersteller: Johnsons - Allergene: [Sesamsamen, Haselnuss] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(2));
+        assertEquals("*** Preis: 1 Euro - Inspektionsdatum: Thu May 19 00:00:00 CEST 3921 - Fachnummer: 0 - Hersteller: Herstello - Allergene: [] - Naehrwert: 250 - Haltbarkeit: 5 Tage ***\n" +
+                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 1 - Hersteller: Jacobs - Allergene: [Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 5 Tage - Kremsorte: Sahne ***\n" +
+                "*** Preis: 1 Euro - Inspektionsdatum: Sun May 22 00:00:00 CEST 3921 - Fachnummer: 2 - Hersteller: Johnsons - Allergene: [Sesamsamen] - Naehrwert: 250 - Haltbarkeit: 100 Tage - Obstsorte: Erdbeer - Kremsorte: Sahne ***\n", auto.listVerkaufsobjekte(2));
     }
+
+    //Dekorator
+
+    @Test
+    public void defaultBelagConstructorTest()
+    {
+        assertEquals("", belagDefault.getName());
+    }
+
+    @Test
+    public void belagSetHerstellerTest()
+    {
+        Eis.setHersteller(jacobs);
+        assertEquals("Jacobs", Eis.getHersteller().getName());
+    }
+
+    @Test
+    public void belagSetHaltbarkeitTest()
+    {
+        Beeren.setHaltbarkeit(Duration.ofDays(6));
+        assertEquals(Duration.ofDays(6), Beeren.getHaltbarkeit());
+    }
+
+    @Test
+    public void belagSetFachnummerTest()
+    {
+        Beeren.setFachnummer(50);
+        assertEquals(50, Beeren.getFachnummer());
+    }
+
+    @Test
+    public void belagSetInspektionsdatumTest()
+    {
+        Beeren.setInspektionsdatum(new Date());
+        assertEquals(new Date(), Beeren.getInspektionsdatum());
+    }
+
+    @Test
+    public void belagToStringTest()
+    {
+        assertEquals("", Beeren.belagToString());
+    }
+
+    @Test
+    public void belatToStringKuchenTest()
+    {
+        assertEquals("", kuchenNormal.belagToString());
+    }
+
+    @Test
+    public void belagToStringNormalTest()
+    {
+        assertTrue(Beeren.toString().contains("Belaege: Beeren"));
+    }
+
+    @Test
+    public void belagToStringKremkuchenTest()
+    {
+        assertTrue(BeerenKK.toString().contains("Belaege: BeerenKK"));
+    }
+
+    @Test
+    public void belagToStringObstkuchenTest()
+    {
+        assertTrue(BeerenOK.toString().contains("Belaege: BeerenOK"));
+    }
+
+    @Test
+    public void belagToStringObsttorteTest()
+    {
+        assertTrue(BeerenOT.toString().contains("Belaege: BeerenOT"));
+    }
+
+    //BelagDekorator
+
+    @Test
+    public void belagGetAllergeneTest()
+    {
+        assertEquals(3, Beeren.getAllergene().size());
+    }
+
+    @Test
+    public void belagGetNaehrwertTest()
+    {
+        assertEquals(400, Beeren.getNaehrwert());
+    }
+
+    @Test
+    public void belagGetHaltbarkeitTest()
+    {
+        assertEquals(5, Beeren.getHaltbarkeit().toDays());
+    }
+
+    @Test
+    public void belagGetPreisTest()
+    {
+        assertEquals(new BigDecimal(7), Beeren.getPreis());
+    }
+
+    @Test
+    public void belagGetKremsorteTest()
+    {
+        assertEquals("Sahne", BeerenKK.getKremsorte());
+    }
+
+    @Test
+    public void belagGetObstsorteTest()
+    {
+        assertEquals("Erdbeer", BeerenOT.getObstsorte());
+    }
+
 }

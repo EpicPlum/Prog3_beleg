@@ -46,7 +46,6 @@ public class altConsole extends console
 
         getScanner().nextLine();
 
-        //String[] line = scnr.nextLine().split(" ");
         String[] line = {};
         ArrayInputEvent input = new ArrayInputEvent(this, getScanner().nextLine(), line);
 
@@ -122,7 +121,6 @@ public class altConsole extends console
             System.out.println(":r - Anzeigemodus");
             System.out.println(":u - Aenderungsmodus");
             System.out.println(":p - Persistenzmodus");
-            System.out.println(":config - Konfigurationsmodus");
             System.out.println(":q - Quit");
 
 

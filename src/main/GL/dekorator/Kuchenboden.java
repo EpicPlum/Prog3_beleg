@@ -21,7 +21,7 @@ public class Kuchenboden extends Verkaufsobjekt implements Verkaufsobjektbar, Ku
     private Collection<Allergen> allergene;
     private Duration haltbarkeit;
     @Serial
-    private static final long serialVersionUID = 9L;
+    private static final long serialVersionUID = 11L;
 
     public Kuchenboden()
     {
@@ -105,7 +105,6 @@ public class Kuchenboden extends Verkaufsobjekt implements Verkaufsobjektbar, Ku
 
     public String belagToString()
     {
-        return super.toString() + " Kuchen --- " + "Hersteller: " + hersteller.getName();
+        return "";
     }
-
 }

@@ -8,13 +8,10 @@ public class removeThread extends automatThread
 {
     private static int removedFachnummer = 0;
 
-
     public removeThread(Automat automat, int mode)
     {
         super(automat, mode);
     }
-
-
 
     @Override
     public void run()
@@ -101,7 +98,6 @@ public class removeThread extends automatThread
             while (currentThread().isAlive()) {
                 try {
                     while (getAutomat().size() <= 0) {
-                        //System.out.println("Automat ist leer. Elemente koennen nicht entfernt werden.");
                         addThread.getMonitor().notify();
                         removeThread.getMonitor().wait();
                         break;

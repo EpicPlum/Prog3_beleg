@@ -1,5 +1,10 @@
 package main.GL.interfaces;
 
-public interface Obstkuchenbar extends Kuchenbar,Verkaufsobjektbar {
+import java.io.Serial;
+import java.io.Serializable;
+
+public interface Obstkuchenbar extends Kuchenbar,Verkaufsobjektbar, Serializable {
     String getObstsorte();
+    @Serial
+    static final long serialVersionUID = 23L;
 }

@@ -1,32 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <java version="15.0.1" class="java.beans.XMLDecoder">
- <object class="main.GL.Automat" id="Automat0">
-  <void property="head">
-   <object class="main.GL.Node">
-    <void property="data">
-     <object class="main.GL.Kremkuchen" id="Kremkuchen0">
-      <void property="fachnummer">
-       <int>1701</int>
-      </void>
-      <void id="Hersteller0" property="hersteller">
-       <void property="name">
-        <string>Jacobs</string>
-       </void>
-      </void>
-      <void property="kremsorte">
-       <string>Sahne</string>
-      </void>
-      <void property="naehrwert">
-       <int>300</int>
-      </void>
-     </object>
-    </void>
-   </object>
-  </void>
-  <void property="herstellern">
-   <void method="add">
-    <object idref="Hersteller0"/>
-   </void>
-  </void>
- </object>
+ <object class="main.GL.Automat"/>
 </java>

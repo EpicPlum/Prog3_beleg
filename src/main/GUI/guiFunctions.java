@@ -72,12 +72,12 @@ public class guiFunctions
                         String bName = line[i * kLength + 5];
 
 
-                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kTemp);
+                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, k, kTemp);
                     }
                 }
                 kFinal = kTemp;
 
-                automat.add(k);
+                automat.add(kFinal);
             }
             else if(line[0].equals("Kremkuchen"))
             {
@@ -110,12 +110,12 @@ public class guiFunctions
                         String bName = line[i * kLength + 6];
 
 
-                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kTemp);
+                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kk, kTemp);
                     }
                 }
                 kFinal = kTemp;
 
-                automat.add(kk);
+                automat.add(kFinal);
             }
             else if(line[0].equals("Obstkuchen"))
             {
@@ -148,12 +148,12 @@ public class guiFunctions
                         String bName = line[i * kLength + 6];
 
 
-                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kTemp);
+                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, ok, kTemp);
                     }
                 }
                 kFinal = kTemp;
 
-                automat.add(ok);
+                automat.add(kFinal);
             }
             else if(line[0].equals("Obsttorte"))
             {
@@ -187,12 +187,12 @@ public class guiFunctions
                         String bName = line[i * kLength + 7];
 
 
-                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kTemp);
+                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, ot, kTemp);
                     }
                 }
                 kFinal = kTemp;
 
-                automat.add(ot);
+                automat.add(kFinal);
             }
             else
             {
@@ -233,9 +233,7 @@ public class guiFunctions
     {
         String output = "";
         scnr = new Scanner(input);
-        //scnr.nextLine();
         String[] line = scnr.nextLine().split(" ");
-        //System.out.println(Arrays.toString(line));
 
         for(int i = 0; i < line.length; i++)
         {
@@ -329,7 +327,7 @@ public class guiFunctions
             automat.setInspektionsdatum(fachnummer, date);
         }
 
-        public void persistanceMode(String input)
+        public void persistenceMode(String input)
         {
             scnr = new Scanner(input);
             String eingabe;

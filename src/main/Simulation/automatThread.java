@@ -45,25 +45,6 @@ public abstract class automatThread extends Thread
         return random;
     }
 
-    public void setMode(int mode) throws IllegalArgumentException
-    {
-        if(mode <= 0)
-        {
-            throw new IllegalArgumentException("Mode darf nicht weniger/gleich 0 sein.");
-        }
-
-        this.mode = mode;
-    }
-    public void setLock(ReentrantLock lock) throws NullPointerException
-    {
-        if(lock == null)
-        {
-            throw new NullPointerException("lock darf nicht null sein.");
-        }
-
-        this.lock = lock;
-    }
-
     public abstract void run();
     public static int getRandomFachnummer(int pos) throws IndexOutOfBoundsException
     {

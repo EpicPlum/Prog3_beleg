@@ -21,12 +21,6 @@ public class Observable_Impl implements Observable
         return state;
     }
 
-    public void setState(int state)
-    {
-        this.state = state;
-        this.notifyObservers();
-    }
-
     public List<Observer> getList()
     {
         return observerList;

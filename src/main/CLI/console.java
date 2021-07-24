@@ -81,7 +81,6 @@ public class console extends Observable_Impl implements ObservableCapacity, Obse
 
         ArrayInputEvent input = new ArrayInputEvent(this, scnr.nextLine(), line);
 
-        //String[] line = scnr.nextLine().split(" ");
         if (this.consoleHandler != null)
             consoleHandler.handleArrayInput(input);
 
@@ -126,7 +125,7 @@ public class console extends Observable_Impl implements ObservableCapacity, Obse
                         String bName = line[i * kLength + 5];
 
 
-                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kTemp);
+                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, k, kTemp);
                     }
                 }
                 kFinal = kTemp;
@@ -162,7 +161,7 @@ public class console extends Observable_Impl implements ObservableCapacity, Obse
                         String bName = line[i * kLength + 6];
 
 
-                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kTemp);
+                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kk, kTemp);
                     }
                 }
                 kFinal = kTemp;
@@ -197,7 +196,7 @@ public class console extends Observable_Impl implements ObservableCapacity, Obse
                         String bName = line[i * kLength + 6];
 
 
-                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kTemp);
+                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, ok, kTemp);
                     }
                 }
                 kFinal = kTemp;
@@ -233,7 +232,7 @@ public class console extends Observable_Impl implements ObservableCapacity, Obse
                         String bName = line[i * kLength + 7];
 
 
-                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, kTemp);
+                        kTemp = new Belag(bName, bPreis, bNaehrwert, bHaltbarkeit, bAllergene, ot, kTemp);
                     }
                 }
                 kFinal = kTemp;
@@ -387,7 +386,6 @@ public class console extends Observable_Impl implements ObservableCapacity, Obse
 
         scnr.nextLine();
 
-        //String[] line = scnr.nextLine().split(" ");
         String[] line = {};
         ArrayInputEvent input = new ArrayInputEvent(this, scnr.nextLine(), line);
 
@@ -483,7 +481,6 @@ public class console extends Observable_Impl implements ObservableCapacity, Obse
         if(scnr.hasNextInt())
         {
 
-            //fachnummer = scnr.nextInt();
             IntInputEvent intIn = new IntInputEvent(this,scnr.nextInt());
             if(this.consoleHandler != null)
                 fachnummer = consoleHandler.handleIntInput(intIn);
@@ -601,7 +598,6 @@ public class console extends Observable_Impl implements ObservableCapacity, Obse
                 System.out.println(":r - Anzeigemodus");
                 System.out.println(":u - Aenderungsmodus");
                 System.out.println(":p - Persistenzmodus");
-                System.out.println(":config - Konfigurationsmodus");
                 System.out.println(":q - Quit");
 
 
