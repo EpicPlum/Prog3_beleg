@@ -23,6 +23,7 @@ public class Kremkuchen extends Kuchen implements Kremkuchenbar, Serializable
 
     public Kremkuchen()
     {
+        super();
         kremsorte = "";
     }
     /*

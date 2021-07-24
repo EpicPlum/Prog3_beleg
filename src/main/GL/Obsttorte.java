@@ -17,6 +17,7 @@ public class Obsttorte extends Obstkuchen implements main.GL.interfaces.Obsttort
 
     public Obsttorte()
     {
+        super();
         kremsorte = "";
     }
 

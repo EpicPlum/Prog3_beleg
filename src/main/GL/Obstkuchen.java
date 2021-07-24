@@ -23,6 +23,7 @@ public class Obstkuchen extends Kuchen implements Obstkuchenbar, Serializable
 
     public Obstkuchen()
     {
+        super();
         obstsorte = "";
     }
     /*
